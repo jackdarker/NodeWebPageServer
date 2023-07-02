@@ -1,5 +1,5 @@
 node_modules
 images
-/rinChanServer/package-lock.json
+/WebServer/package-lock.json
 uploads
-/rinChanWebUI/package-lock.json
+/WebUI/package-lock.json

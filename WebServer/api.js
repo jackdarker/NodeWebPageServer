@@ -23,7 +23,7 @@ var options = {
 let dbhandler = new dbHandler;
 
 // Image outdir should be the path to the images directory on the frontend
-let imgOutDir = "D:\\Projects\\Javascript\\rinChan-master\\rinChanWebUI\\public\\images\\";//"IMAGEOUTDIR";
+let imgOutDir = "D:\\Projects\\Javascript\\NodeWebPageServer\\WebUI\\public\\images\\";
 dbhandler.dbInit();
 
 //Posts will return an array of boardPost, posts for a thread if thread is specified or posts for a board if board is specified

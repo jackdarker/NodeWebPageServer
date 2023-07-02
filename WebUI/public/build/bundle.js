@@ -1815,7 +1815,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (85:8) {#if boardPairs != undefined}
+    // (98:8) {#if boardPairs != undefined}
     function create_if_block_3$1(ctx) {
     	let if_block_anchor;
     	let if_block = /*boardPairs*/ ctx[0].length > 0 && create_if_block_4$1(ctx);
@@ -1853,14 +1853,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3$1.name,
     		type: "if",
-    		source: "(85:8) {#if boardPairs != undefined}",
+    		source: "(98:8) {#if boardPairs != undefined}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (86:12) {#if boardPairs.length > 0}
+    // (99:12) {#if boardPairs.length > 0}
     function create_if_block_4$1(ctx) {
     	let each_1_anchor;
     	let each_value = /*boardPairs*/ ctx[0];
@@ -1923,14 +1923,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4$1.name,
     		type: "if",
-    		source: "(86:12) {#if boardPairs.length > 0}",
+    		source: "(99:12) {#if boardPairs.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (87:16) {#each boardPairs as boardPair}
+    // (100:16) {#each boardPairs as boardPair}
     function create_each_block$1(ctx) {
     	let li;
     	let a;
@@ -1948,9 +1948,9 @@ var app = (function () {
     			t1 = text(t1_value);
     			t2 = text("/");
     			attr_dev(a, "href", a_href_value = "" + (/*url*/ ctx[3] + "?board=" + /*boardPair*/ ctx[11].boardID));
-    			add_location(a, file$1, 87, 42, 2294);
-    			attr_dev(li, "class", "boardLink svelte-t38hhi");
-    			add_location(li, file$1, 87, 20, 2272);
+    			add_location(a, file$1, 100, 42, 2605);
+    			attr_dev(li, "class", "boardLink svelte-nxmcc7");
+    			add_location(li, file$1, 100, 20, 2583);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -1975,14 +1975,14 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(87:16) {#each boardPairs as boardPair}",
+    		source: "(100:16) {#each boardPairs as boardPair}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (97:8) {:else}
+    // (110:8) {:else}
     function create_else_block$1(ctx) {
     	let li;
     	let button;
@@ -1995,10 +1995,10 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Reply";
     			attr_dev(button, "id", "replyButton");
-    			attr_dev(button, "class", "svelte-t38hhi");
-    			add_location(button, file$1, 97, 16, 2757);
-    			attr_dev(li, "class", "svelte-t38hhi");
-    			add_location(li, file$1, 97, 12, 2753);
+    			attr_dev(button, "class", "svelte-nxmcc7");
+    			add_location(button, file$1, 110, 16, 3068);
+    			attr_dev(li, "class", "svelte-nxmcc7");
+    			add_location(li, file$1, 110, 12, 3064);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -2021,14 +2021,14 @@ var app = (function () {
     		block,
     		id: create_else_block$1.name,
     		type: "else",
-    		source: "(97:8) {:else}",
+    		source: "(110:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (93:8) {#if threadID == null}
+    // (106:8) {#if threadID == null}
     function create_if_block_1$1(ctx) {
     	let if_block_anchor;
     	let if_block = /*boardID*/ ctx[7] != null && create_if_block_2$1(ctx);
@@ -2055,14 +2055,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(93:8) {#if threadID == null}",
+    		source: "(106:8) {#if threadID == null}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (94:12) {#if boardID != null}
+    // (107:12) {#if boardID != null}
     function create_if_block_2$1(ctx) {
     	let li;
     	let button;
@@ -2075,10 +2075,10 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "New Thread";
     			attr_dev(button, "id", "replyButton");
-    			attr_dev(button, "class", "svelte-t38hhi");
-    			add_location(button, file$1, 94, 20, 2631);
-    			attr_dev(li, "class", "svelte-t38hhi");
-    			add_location(li, file$1, 94, 16, 2627);
+    			attr_dev(button, "class", "svelte-nxmcc7");
+    			add_location(button, file$1, 107, 20, 2942);
+    			attr_dev(li, "class", "svelte-nxmcc7");
+    			add_location(li, file$1, 107, 16, 2938);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -2101,14 +2101,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$1.name,
     		type: "if",
-    		source: "(94:12) {#if boardID != null}",
+    		source: "(107:12) {#if boardID != null}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (102:0) {#if showReplyBox}
+    // (115:0) {#if showReplyBox}
     function create_if_block$1(ctx) {
     	let replyinputcontainer;
     	let current;
@@ -2140,7 +2140,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(102:0) {#if showReplyBox}",
+    		source: "(115:0) {#if showReplyBox}",
     		ctx
     	});
 
@@ -2148,7 +2148,7 @@ var app = (function () {
     }
 
     function create_fragment$1(ctx) {
-    	let div;
+    	let aside;
     	let ul;
     	let li0;
     	let a;
@@ -2176,12 +2176,12 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			div = element("div");
+    			aside = element("aside");
     			ul = element("ul");
     			li0 = element("li");
     			a = element("a");
     			p = element("p");
-    			p.textContent = "RinChan";
+    			p.textContent = "Image-Browser";
     			t1 = space();
     			if (if_block0) if_block0.c();
     			t2 = space();
@@ -2192,30 +2192,30 @@ var app = (function () {
     			t4 = space();
     			if (if_block2) if_block2.c();
     			if_block2_anchor = empty();
-    			attr_dev(p, "class", "svelte-t38hhi");
-    			add_location(p, file$1, 83, 28, 2101);
+    			attr_dev(p, "class", "svelte-nxmcc7");
+    			add_location(p, file$1, 96, 28, 2406);
     			attr_dev(a, "href", /*url*/ ctx[3]);
-    			add_location(a, file$1, 83, 12, 2085);
-    			attr_dev(li0, "class", "svelte-t38hhi");
-    			add_location(li0, file$1, 83, 8, 2081);
+    			add_location(a, file$1, 96, 12, 2390);
+    			attr_dev(li0, "class", "svelte-nxmcc7");
+    			add_location(li0, file$1, 96, 8, 2386);
     			attr_dev(input, "id", "searchInput");
     			attr_dev(input, "label", "Search");
     			attr_dev(input, "type", "text");
-    			attr_dev(input, "class", "svelte-t38hhi");
-    			add_location(input, file$1, 91, 12, 2435);
-    			attr_dev(li1, "class", "svelte-t38hhi");
-    			add_location(li1, file$1, 91, 8, 2431);
-    			attr_dev(ul, "class", "svelte-t38hhi");
-    			add_location(ul, file$1, 82, 4, 2068);
-    			attr_dev(div, "class", "topBar svelte-t38hhi");
-    			add_location(div, file$1, 81, 0, 2043);
+    			attr_dev(input, "class", "svelte-nxmcc7");
+    			add_location(input, file$1, 104, 12, 2746);
+    			attr_dev(li1, "class", "svelte-nxmcc7");
+    			add_location(li1, file$1, 104, 8, 2742);
+    			attr_dev(ul, "class", "svelte-nxmcc7");
+    			add_location(ul, file$1, 95, 4, 2373);
+    			attr_dev(aside, "class", "topBar svelte-nxmcc7");
+    			add_location(aside, file$1, 94, 0, 2346);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, ul);
+    			insert_dev(target, aside, anchor);
+    			append_dev(aside, ul);
     			append_dev(ul, li0);
     			append_dev(li0, a);
     			append_dev(a, p);
@@ -2292,7 +2292,7 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(aside);
     			if (if_block0) if_block0.d();
     			if_block1.d();
     			if (detaching) detach_dev(t4);
@@ -2437,7 +2437,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (106:1) {#if boardIndex != undefined}
+    // (131:1) {#if boardIndex != undefined}
     function create_if_block_12(ctx) {
     	let if_block_anchor;
     	let if_block = /*boardPairs*/ ctx[1].length > 0 && create_if_block_13(ctx);
@@ -2475,14 +2475,14 @@ var app = (function () {
     		block,
     		id: create_if_block_12.name,
     		type: "if",
-    		source: "(106:1) {#if boardIndex != undefined}",
+    		source: "(131:1) {#if boardIndex != undefined}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (107:2) {#if boardPairs.length > 0}
+    // (132:2) {#if boardPairs.length > 0}
     function create_if_block_13(ctx) {
     	let div;
     	let h1;
@@ -2501,9 +2501,9 @@ var app = (function () {
     			t1 = text(t1_value);
     			t2 = text("/ - ");
     			t3 = text(t3_value);
-    			add_location(h1, file, 108, 4, 2920);
-    			attr_dev(div, "class", "boardBanner svelte-bhr1se");
-    			add_location(div, file, 107, 3, 2890);
+    			add_location(h1, file, 133, 4, 3437);
+    			attr_dev(div, "class", "boardBanner svelte-1yvb74k");
+    			add_location(div, file, 132, 3, 3407);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2526,14 +2526,14 @@ var app = (function () {
     		block,
     		id: create_if_block_13.name,
     		type: "if",
-    		source: "(107:2) {#if boardPairs.length > 0}",
+    		source: "(132:2) {#if boardPairs.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (114:1) {#if boardPairs != undefined}
+    // (139:1) {#if boardPairs != undefined}
     function create_if_block_10(ctx) {
     	let if_block_anchor;
     	let current;
@@ -2592,14 +2592,14 @@ var app = (function () {
     		block,
     		id: create_if_block_10.name,
     		type: "if",
-    		source: "(114:1) {#if boardPairs != undefined}",
+    		source: "(139:1) {#if boardPairs != undefined}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (115:2) {#if boardPairs.length > 0}
+    // (140:2) {#if boardPairs.length > 0}
     function create_if_block_11(ctx) {
     	let navbar;
     	let current;
@@ -2642,14 +2642,14 @@ var app = (function () {
     		block,
     		id: create_if_block_11.name,
     		type: "if",
-    		source: "(115:2) {#if boardPairs.length > 0}",
+    		source: "(140:2) {#if boardPairs.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (154:1) {:else}
+    // (179:1) {:else}
     function create_else_block_4(ctx) {
     	let div;
     	let img;
@@ -2663,12 +2663,12 @@ var app = (function () {
     			img = element("img");
     			t = space();
     			if (if_block) if_block.c();
-    			attr_dev(img, "class", "rinImage svelte-bhr1se");
+    			attr_dev(img, "class", "rinImage svelte-1yvb74k");
     			if (!src_url_equal(img.src, img_src_value = "./images/site/rinImage.jpg")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			add_location(img, file, 155, 3, 4036);
-    			attr_dev(div, "class", "home svelte-bhr1se");
-    			add_location(div, file, 154, 2, 4014);
+    			add_location(img, file, 180, 3, 4553);
+    			attr_dev(div, "class", "home svelte-1yvb74k");
+    			add_location(div, file, 179, 2, 4531);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2702,14 +2702,14 @@ var app = (function () {
     		block,
     		id: create_else_block_4.name,
     		type: "else",
-    		source: "(154:1) {:else}",
+    		source: "(179:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (122:1) {#if boardID || threadID}
+    // (147:1) {#if boardID || threadID}
     function create_if_block(ctx) {
     	let div;
     	let current_block_type_index;
@@ -2731,8 +2731,8 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			if_block.c();
-    			attr_dev(div, "class", "posts svelte-bhr1se");
-    			add_location(div, file, 122, 1, 3335);
+    			attr_dev(div, "class", "posts svelte-1yvb74k");
+    			add_location(div, file, 147, 1, 3852);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2785,14 +2785,14 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(122:1) {#if boardID || threadID}",
+    		source: "(147:1) {#if boardID || threadID}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (157:3) {#if boardPairs != undefined}
+    // (182:3) {#if boardPairs != undefined}
     function create_if_block_8(ctx) {
     	let if_block_anchor;
     	let if_block = /*boardPairs*/ ctx[1].length > 0 && create_if_block_9(ctx);
@@ -2830,14 +2830,14 @@ var app = (function () {
     		block,
     		id: create_if_block_8.name,
     		type: "if",
-    		source: "(157:3) {#if boardPairs != undefined}",
+    		source: "(182:3) {#if boardPairs != undefined}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (158:4) {#if boardPairs.length > 0}
+    // (183:4) {#if boardPairs.length > 0}
     function create_if_block_9(ctx) {
     	let each_1_anchor;
     	let each_value_2 = /*boardPairs*/ ctx[1];
@@ -2900,14 +2900,14 @@ var app = (function () {
     		block,
     		id: create_if_block_9.name,
     		type: "if",
-    		source: "(158:4) {#if boardPairs.length > 0}",
+    		source: "(183:4) {#if boardPairs.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (159:5) {#each boardPairs as boardPair}
+    // (184:5) {#each boardPairs as boardPair}
     function create_each_block_2(ctx) {
     	let h2;
     	let a;
@@ -2928,9 +2928,9 @@ var app = (function () {
     			t2 = text("/ - ");
     			t3 = text(t3_value);
     			attr_dev(a, "href", a_href_value = "" + (/*url*/ ctx[7] + "?board=" + /*boardPair*/ ctx[21].boardID));
-    			attr_dev(a, "class", "svelte-bhr1se");
-    			add_location(a, file, 159, 10, 4212);
-    			add_location(h2, file, 159, 6, 4208);
+    			attr_dev(a, "class", "svelte-1yvb74k");
+    			add_location(a, file, 184, 10, 4729);
+    			add_location(h2, file, 184, 6, 4725);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h2, anchor);
@@ -2957,14 +2957,14 @@ var app = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(159:5) {#each boardPairs as boardPair}",
+    		source: "(184:5) {#each boardPairs as boardPair}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (149:3) {:else}
+    // (174:3) {:else}
     function create_else_block_3(ctx) {
     	let h1;
 
@@ -2972,7 +2972,7 @@ var app = (function () {
     		c: function create() {
     			h1 = element("h1");
     			h1.textContent = "No Posts Found";
-    			add_location(h1, file, 149, 4, 3954);
+    			add_location(h1, file, 174, 4, 4471);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -2989,14 +2989,14 @@ var app = (function () {
     		block,
     		id: create_else_block_3.name,
     		type: "else",
-    		source: "(149:3) {:else}",
+    		source: "(174:3) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (139:3) {#if posts != undefined}
+    // (164:3) {#if posts != undefined}
     function create_if_block_5(ctx) {
     	let if_block_anchor;
     	let current;
@@ -3055,14 +3055,14 @@ var app = (function () {
     		block,
     		id: create_if_block_5.name,
     		type: "if",
-    		source: "(139:3) {#if posts != undefined}",
+    		source: "(164:3) {#if posts != undefined}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (124:2) {#if searching}
+    // (149:2) {#if searching}
     function create_if_block_1(ctx) {
     	let current_block_type_index;
     	let if_block;
@@ -3135,14 +3135,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(124:2) {#if searching}",
+    		source: "(149:2) {#if searching}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (140:4) {#if posts.length > 0}
+    // (165:4) {#if posts.length > 0}
     function create_if_block_6(ctx) {
     	let each_1_anchor;
     	let current;
@@ -3233,14 +3233,14 @@ var app = (function () {
     		block,
     		id: create_if_block_6.name,
     		type: "if",
-    		source: "(140:4) {#if posts.length > 0}",
+    		source: "(165:4) {#if posts.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (144:6) {:else}
+    // (169:6) {:else}
     function create_else_block_2(ctx) {
     	let postcontainer;
     	let current;
@@ -3281,14 +3281,14 @@ var app = (function () {
     		block,
     		id: create_else_block_2.name,
     		type: "else",
-    		source: "(144:6) {:else}",
+    		source: "(169:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (142:6) {#if post.replyToID == null}
+    // (167:6) {#if post.replyToID == null}
     function create_if_block_7(ctx) {
     	let openingpostcontainer;
     	let current;
@@ -3329,14 +3329,14 @@ var app = (function () {
     		block,
     		id: create_if_block_7.name,
     		type: "if",
-    		source: "(142:6) {#if post.replyToID == null}",
+    		source: "(167:6) {#if post.replyToID == null}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (141:5) {#each posts as post}
+    // (166:5) {#each posts as post}
     function create_each_block_1(ctx) {
     	let current_block_type_index;
     	let if_block;
@@ -3409,14 +3409,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(141:5) {#each posts as post}",
+    		source: "(166:5) {#each posts as post}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (135:3) {:else}
+    // (160:3) {:else}
     function create_else_block_1(ctx) {
     	let h1;
 
@@ -3424,7 +3424,7 @@ var app = (function () {
     		c: function create() {
     			h1 = element("h1");
     			h1.textContent = "No Posts Found";
-    			add_location(h1, file, 135, 4, 3651);
+    			add_location(h1, file, 160, 4, 4168);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -3441,14 +3441,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1.name,
     		type: "else",
-    		source: "(135:3) {:else}",
+    		source: "(160:3) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (125:3) {#if searchPosts != undefined}
+    // (150:3) {#if searchPosts != undefined}
     function create_if_block_2(ctx) {
     	let if_block_anchor;
     	let current;
@@ -3507,14 +3507,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(125:3) {#if searchPosts != undefined}",
+    		source: "(150:3) {#if searchPosts != undefined}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (126:4) {#if searchPosts.length > 0}
+    // (151:4) {#if searchPosts.length > 0}
     function create_if_block_3(ctx) {
     	let each_1_anchor;
     	let current;
@@ -3605,14 +3605,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(126:4) {#if searchPosts.length > 0}",
+    		source: "(151:4) {#if searchPosts.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (130:6) {:else}
+    // (155:6) {:else}
     function create_else_block(ctx) {
     	let postcontainer;
     	let current;
@@ -3653,14 +3653,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(130:6) {:else}",
+    		source: "(155:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (128:6) {#if post.replyToID == null}
+    // (153:6) {#if post.replyToID == null}
     function create_if_block_4(ctx) {
     	let openingpostcontainer;
     	let current;
@@ -3701,14 +3701,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(128:6) {#if post.replyToID == null}",
+    		source: "(153:6) {#if post.replyToID == null}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (127:5) {#each searchPosts as post}
+    // (152:5) {#each searchPosts as post}
     function create_each_block(ctx) {
     	let current_block_type_index;
     	let if_block;
@@ -3781,7 +3781,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(127:5) {#each searchPosts as post}",
+    		source: "(152:5) {#each searchPosts as post}",
     		ctx
     	});
 
@@ -3789,7 +3789,7 @@ var app = (function () {
     }
 
     function create_fragment(ctx) {
-    	let main;
+    	let section;
     	let t0;
     	let t1;
     	let div;
@@ -3811,27 +3811,28 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			main = element("main");
+    			section = element("section");
     			if (if_block0) if_block0.c();
     			t0 = space();
     			if (if_block1) if_block1.c();
     			t1 = space();
     			div = element("div");
     			if_block2.c();
-    			attr_dev(div, "class", "posts svelte-bhr1se");
-    			add_location(div, file, 118, 1, 3198);
-    			add_location(main, file, 103, 0, 2769);
+    			attr_dev(div, "class", "posts svelte-1yvb74k");
+    			add_location(div, file, 143, 1, 3715);
+    			attr_dev(section, "class", "svelte-1yvb74k");
+    			add_location(section, file, 127, 0, 3225);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, main, anchor);
-    			if (if_block0) if_block0.m(main, null);
-    			append_dev(main, t0);
-    			if (if_block1) if_block1.m(main, null);
-    			append_dev(main, t1);
-    			append_dev(main, div);
+    			insert_dev(target, section, anchor);
+    			if (if_block0) if_block0.m(section, null);
+    			append_dev(section, t0);
+    			if (if_block1) if_block1.m(section, null);
+    			append_dev(section, t1);
+    			append_dev(section, div);
     			if_blocks[current_block_type_index].m(div, null);
     			current = true;
     		},
@@ -3842,7 +3843,7 @@ var app = (function () {
     				} else {
     					if_block0 = create_if_block_12(ctx);
     					if_block0.c();
-    					if_block0.m(main, t0);
+    					if_block0.m(section, t0);
     				}
     			} else if (if_block0) {
     				if_block0.d(1);
@@ -3860,7 +3861,7 @@ var app = (function () {
     					if_block1 = create_if_block_10(ctx);
     					if_block1.c();
     					transition_in(if_block1, 1);
-    					if_block1.m(main, t1);
+    					if_block1.m(section, t1);
     				}
     			} else if (if_block1) {
     				group_outros();
@@ -3886,7 +3887,7 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(main);
+    			if (detaching) detach_dev(section);
     			if (if_block0) if_block0.d();
     			if (if_block1) if_block1.d();
     			if_blocks[current_block_type_index].d();

@@ -21,7 +21,19 @@
     let boardID = urlparams.get('board');
 </script>
 <style>
-    .topBar {
+    .topBar{
+        background-color: var(--primaryColour);
+		margin_old: 0.25em 0.25em;
+		padding: 0.25em;
+		min-width: 10em;
+		min-height: 30em;
+		text-align: center;
+        grid-column:1;
+		grid-row-start: 1;
+		grid-row-end: 3;
+		font-size: smaller;
+	}
+    .topBar_old {
 		background-color: var(--primaryColour);
 		display:inline-block;
         overflow: hidden;
@@ -49,7 +61,8 @@
         font-size: 0.8em;
     }
     #searchInput{
-        padding:0 1em;
+        width: 100%;
+        padding_old:0 1em;
         font-size: 0.8em;
         border: 1px;
         border-style: solid;
@@ -62,12 +75,12 @@
         padding:0;
         margin: 0;
         list-style-type: none;
-        display: table-row;
+        display_old: table-row;
 	}
 	li{
-        float:left;
-        margin-right: 2em;
-        margin-left: 2em;
+        float_old:left;
+        margin-right_old: 2em;
+        margin-left_old: 2em;
     }
     p{  
         margin:0;
@@ -79,9 +92,9 @@
         margin:0;
     }
 </style>
-<div class="topBar">
+<aside class="topBar">
     <ul>
-        <li><a href="{url}"><p>RinChan</p></a></li>	
+        <li><a href="{url}"><p>Image-Browser</p></a></li>	
         {#if boardPairs != undefined}
             {#if boardPairs.length > 0}
                 {#each boardPairs as boardPair}
@@ -98,7 +111,7 @@
             <li><button id="replyButton" on:click={toggleReplyBox}>Reply</button></li>
         {/if}
     </ul>
-</div>
+</aside>
 {#if showReplyBox}
     <ReplyInputContainer/>
 {/if}

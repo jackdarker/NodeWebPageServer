@@ -77,14 +77,37 @@
 		--secondaryColour: #282A28;
 		background-color: var(--secondaryColour);
 	}
+	section{
+		display: grid;
+		grid-template-columns: 0.2fr 1fr 1fr 1fr;
+		grid-template-rows: 20% 80%;
+		height: 100vh;
+		/* width: 95vw; */
+	}
+	#sidebar {
+		margin: 0.25em 0.25em;
+		padding: 0.25em;
+		min-width: 10em;
+		min-height: 30em;
+		text-align: center;
+		grid-row-start: 1;
+		grid-row-end: 3;
+		font-size: smaller;
+	}
 	.posts{
-		margin-top: 40px;
+		grid-row: 2;
+		grid-column-start: 2;
+		grid-column-end: 4;
+		margin-top_old: 40px;
 	}
 	.boardBanner{
-		margin-top: 100px;
+		margin-top_old: 100px;
+		grid-row: 1;
+		grid-column-start: 2;
+		grid-column-end: 4;
 		color: var(--secondaryAccent);
 		text-align: center;
-		font-size: 2em;
+		font-size: 1em;
 	}
 	.home{
 		margin:auto;
@@ -101,7 +124,9 @@
 		color:white;
 	}
 </style>
-<main>
+
+<section>
+	<!--aside id='sidebar'><button>Search</button></aside-->
 	<!-- Create board banner e.g /g/ - Technology-->
 	{#if boardIndex != undefined}
 		{#if boardPairs.length > 0}
@@ -164,4 +189,4 @@
 		</div>
 		
 	{/if}
-</main>
+</section>
