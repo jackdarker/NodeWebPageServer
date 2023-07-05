@@ -3,6 +3,7 @@
 	import OpeningPostContainer from "./OpeningPostContainer.svelte";
 	import { onMount } from 'svelte';
 	import NavBar from "./NavBar.svelte";
+	import {apiURL} from "./const.svelte";
 	import ReplyInputContainer from "./ReplyInputContainer.svelte";
 	let posts;
 	let boardPairs;
@@ -11,7 +12,7 @@
 	let boardID = urlparams.get('board');
 	let boardIndex;
 	let boardsRes;
-	let apiURL="http://127.0.0.1:30050/api/";
+	//let apiURL="http://127.0.0.1:30050/api/";
 	let searching = false;
 	let searchPosts = [];
 	let url = document.URL.substr(0,document.URL.lastIndexOf("/")+1);

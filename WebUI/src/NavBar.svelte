@@ -2,13 +2,17 @@
     export let boardPairs = [];
     import { createEventDispatcher } from 'svelte';
     import ReplyInputContainer from "./ReplyInputContainer.svelte";
+    import TagInputContainer from "./TagInputContainer.svelte";
     const dispatch = createEventDispatcher();
-    let showReplyBox = false;
+    let showReplyBox = false; 
+    let showTagEditBox=false;
     let searchString = "";
     let url = document.URL.substr(0,document.URL.lastIndexOf("/")+1);
     function toggleReplyBox(){
         showReplyBox = !showReplyBox;
-        
+    }
+    function toggleTagBox(){
+        showTagEditBox = !showTagEditBox;
     }
     function dispatchSearch() {
 		dispatch('message', {
@@ -110,8 +114,12 @@
         {:else}
             <li><button id="replyButton" on:click={toggleReplyBox}>Reply</button></li>
         {/if}
+        <li><button id="tagEditButton" on:click={toggleTagBox}>Reply</button></li>
     </ul>
 </aside>
 {#if showReplyBox}
     <ReplyInputContainer/>
+{/if}
+{#if showTagEditBox}
+    <TagInputContainer/>
 {/if}

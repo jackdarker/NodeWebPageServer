@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require('cors');
 const boardPost = require("./boardPost.js");
 const boardPair = require("./boardPair.js");
+const tag = require("./tag.js");
 const dbHandler = require("./dbHandler.js");
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
@@ -92,6 +93,7 @@ app.post('/api/submitPost', upload.single("userImage"), async (req,res) => {
 			postData = new boardPost(null,opBoardID,req.body.name,null,req.body.posterID,null,req.file.originalname,req.body.postText,req.file.mimetype.split("/")[1],req.body.replyToID);
 		}
 		try{
+			let tagID = await createTag(postData);
 			let postID = await createPost(postData);
 			if(req.file){
 				handleImages(req,postID,req.body.replyToID,true);

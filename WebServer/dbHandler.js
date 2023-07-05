@@ -30,6 +30,12 @@ class dbHandler {
 			boardName TEXT NOT NULL
 		)`
 		db.run(query);
+		query = `CREATE TABLE IF NOT EXISTS Tags (
+			ID	INTEGER NOT NULL UNIQUE,
+			Name	TEXT,
+			PRIMARY KEY("ID" AUTOINCREMENT)
+		)`
+		db.run(query);
 		//query = `INSERT into Boards (boardID,boardName) VALUES ('b','Random')`
 		//db.run(query);
 		//query = `INSERT into Boards (boardID,boardName) VALUES ('g','Technology')`
@@ -125,6 +131,22 @@ class dbHandler {
 						console.log("dbHandler::createOp" + err);
 					} else {
 						console.log("dbHandler::createOp::OpInserted ");
+						console.log(this.lastID);
+						resolve(this.lastID);
+					}
+				});
+			});
+		});
+	}
+	createTag(boardPost){
+		let query = `INSERT into Tags (name) VALUES (?)`;
+		return new Promise((resolve,reject) =>{
+			db.serialize(() => {
+				db.run(query,[boardPost.subject], function (err) {
+					if (err){
+						console.log("dbHandler::createTag" + err);
+					} else {
+						console.log("dbHandler::createTag::postInserted");
 						console.log(this.lastID);
 						resolve(this.lastID);
 					}

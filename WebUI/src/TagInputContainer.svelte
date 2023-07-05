@@ -14,16 +14,6 @@
     //let apiURL="http://127.0.0.1:30050/api/";
     boardPost.replyToID = threadID;
     boardPost.boardID = boardID;
-    let imageSource;
-    // Loads a preview of an image the user is about to upload, this is called when the file input is updated
-    function setImagePreview(){
-            let reader = new FileReader();
-            reader.readAsDataURL(document.getElementById("imageInput").files[0]);
-            reader.onloadend = function(readerData){
-                imageSource = readerData.target.result;
-            }
-    }
-
     //Function to send the reply to the api
     async function submitReply(){
         console.log(boardPost);
@@ -68,9 +58,6 @@
         min-width: 15%;
         max-width: 95%;
     }
-    #imagePreview {
-        width: 5em;
-    }
     #postForm{
         width:100%
     }
@@ -97,14 +84,6 @@
 <div class="replyBox">
     <form action="{apiURL+"/submitPost"}" enctype="multipart/form-data" method="post" id="postForm">
         <input type="text" id="nameInput" placeholder="Name" name="name" bind:value={boardPost.name}/>
-        {#if threadID == null}
-            <input type="text" id="subjectInput" placeholder="Subject" name="subject" bind:value={boardPost.subject}/>
-        {/if}
-        <textarea placeholder="Comment" id="textInput" name="postText" bind:value={boardPost.postText}></textarea>
-        {#if imageSource != null}
-            <img src={imageSource} id="imagePreview" alt="">
-        {/if}
-        <input type="file" id="imageInput" name="userImage" accept="image/*" on:change={setImagePreview}/>
         <button id="replySubmit" on:click|preventDefault={validateInputs}>Submit</button>
     </form>    
 </div>
