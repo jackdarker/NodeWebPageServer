@@ -22,11 +22,7 @@
         formData.append('boardID', boardPost.boardID);
         formData.append('replyToID', boardPost.replyToID);
         let url;
-        if (threadID != null){
-            url = apiURL+"submitPost";
-        } else {
-            url = apiURL+"submitOp";
-        }
+        url = apiURL+"submitTag";
         let res = await fetch(url,{
             method: 'POST',
             body: formData,
@@ -82,7 +78,7 @@
 
 
 <div class="replyBox">
-    <form action="{apiURL+"/submitPost"}" enctype="multipart/form-data" method="post" id="postForm">
+    <form action="{apiURL+"/submitPost"}" enctype="multipart/form-data"  method="post" id="postForm">
         <input type="text" id="nameInput" placeholder="Name" name="name" bind:value={boardPost.name}/>
         <button id="replySubmit" on:click|preventDefault={validateInputs}>Submit</button>
     </form>    

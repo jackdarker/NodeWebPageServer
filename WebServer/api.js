@@ -11,6 +11,9 @@ const app = express();
 const https = require('https');
 const fs = require('fs');
 const {execSync}  = require('child_process');
+const bodyParser = require("body-parser");
+//const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const urlencodedParser = bodyParser.raw();
 app.use(cors());
 
 /* Uncomment and add paths if using https
@@ -61,7 +64,9 @@ app.get('/api/boards', async (req,res) => {
 		res.send(404);
 	}
 });
-
+app.post('/api/submitTag',upload.single("userImage"), async (req,res) => {
+	console.log(req.file,req.body);
+});
 app.post('/api/submitPost', upload.single("userImage"), async (req,res) => {
 	console.log(req.file,req.body);
 	let opBoardID;

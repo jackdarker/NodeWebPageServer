@@ -1834,18 +1834,18 @@ var app = (function () {
     			attr_dev(input, "placeholder", "Name");
     			attr_dev(input, "name", "name");
     			attr_dev(input, "class", "svelte-1dxinbl");
-    			add_location(input, file$2, 85, 8, 2428);
+    			add_location(input, file$2, 81, 8, 2325);
     			attr_dev(button, "id", "replySubmit");
     			attr_dev(button, "class", "svelte-1dxinbl");
-    			add_location(button, file$2, 86, 8, 2532);
+    			add_location(button, file$2, 82, 8, 2429);
     			attr_dev(form, "action", apiURL + "/submitPost");
     			attr_dev(form, "enctype", "multipart/form-data");
     			attr_dev(form, "method", "post");
     			attr_dev(form, "id", "postForm");
     			attr_dev(form, "class", "svelte-1dxinbl");
-    			add_location(form, file$2, 84, 4, 2322);
+    			add_location(form, file$2, 80, 4, 2218);
     			attr_dev(div, "class", "replyBox svelte-1dxinbl");
-    			add_location(div, file$2, 83, 0, 2294);
+    			add_location(div, file$2, 79, 0, 2190);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1921,13 +1921,7 @@ var app = (function () {
     		formData.append('boardID', boardPost.boardID);
     		formData.append('replyToID', boardPost.replyToID);
     		let url;
-
-    		if (threadID != null) {
-    			url = apiURL + "submitPost";
-    		} else {
-    			url = apiURL + "submitOp";
-    		}
-
+    		url = apiURL + "submitTag";
     		let res = await fetch(url, { method: 'POST', body: formData });
     		let status = await res.status;
     		let response = await res.json();

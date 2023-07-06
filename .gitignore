@@ -3,3 +3,4 @@ images
 /WebServer/package-lock.json
 uploads
 /WebUI/package-lock.json
+/*.db
