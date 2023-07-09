@@ -64,8 +64,26 @@ app.get('/api/boards', async (req,res) => {
 		res.send(404);
 	}
 });
+// upload.single("userImage") extracts a file-input with id=userImage and other text-input and appeds those as body element to the request. 
+// The request is then passed down to the next handler that can process the body. 
 app.post('/api/submitTag',upload.single("userImage"), async (req,res) => {
 	console.log(req.file,req.body);
+	if (req.body.name.length < 1){
+		req.body.name = "";
+	}
+	if(req.body.name==="") {
+		res.status(422).send({error: "empty tag"});
+	} else {
+		let postData;
+		postData = new boardPost(null,null,req.body.name,null,null,null,null,null,null,null);
+		try{
+			let postID = await dbhandler.createTag(postData);
+			res.send(200,{error: "Post Success"});
+		} catch(e) {
+			console.log("api::submitTag::create " + e);
+			res.send(422,{error: "Post Error"})
+		}
+	}
 });
 app.post('/api/submitPost', upload.single("userImage"), async (req,res) => {
 	console.log(req.file,req.body);
@@ -98,7 +116,6 @@ app.post('/api/submitPost', upload.single("userImage"), async (req,res) => {
 			postData = new boardPost(null,opBoardID,req.body.name,null,req.body.posterID,null,req.file.originalname,req.body.postText,req.file.mimetype.split("/")[1],req.body.replyToID);
 		}
 		try{
-			let tagID = await createTag(postData);
 			let postID = await createPost(postData);
 			if(req.file){
 				handleImages(req,postID,req.body.replyToID,true);

@@ -66,6 +66,9 @@
 		const res = await fetch(apiURL+"posts?thread="+threadID);
 		return await res.json();
 	}
+	function foo(){
+		alert('wrew');
+	}
 </script>
 <style>
 	:global(:root){

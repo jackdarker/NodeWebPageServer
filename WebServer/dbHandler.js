@@ -142,7 +142,7 @@ class dbHandler {
 		let query = `INSERT into Tags (name) VALUES (?)`;
 		return new Promise((resolve,reject) =>{
 			db.serialize(() => {
-				db.run(query,[boardPost.subject], function (err) {
+				db.run(query,[boardPost.name], function (err) {
 					if (err){
 						console.log("dbHandler::createTag" + err);
 					} else {
