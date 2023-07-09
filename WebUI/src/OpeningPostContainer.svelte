@@ -1,10 +1,12 @@
 <script>
     import { onMount } from "svelte";
     import * as glob from "./const.svelte";
+    import { viewHandle } from './Stores';
+    import { get } from 'svelte/store';
     export let post;
     let imagePath, thumbPath;   
     let showThumb = true;
-    let url = document.URL.substr(0,document.URL.lastIndexOf("/")+1);
+    let url = document.URL.substring(0,document.URL.lastIndexOf("/")+1);
     //Set file paths if the post has a file
     if (post.fileName.length > 0){
             imagePath = "images/" + (post.replyToID ? post.replyToID : post.postID) + "/" + post.postID + "." + post.fileExt;
@@ -15,13 +17,20 @@
         showThumb = !showThumb;
     }
     function openWindow(post){
-        let newWindow = open(glob.uiURL+'/subpage.html')
-        //let newWindow = open(glob.uiURL+'/subpage.html', 'Viewer', 'width=300,height=300')
-        //newWindow.focus();
-        newWindow.onload = function() {
-        let html = `<div style="font-size:30px">Welcome!</div>`;
-            newWindow.document.body.insertAdjacentHTML('afterbegin', html); 
-        };
+        let handle=get(viewHandle);
+        if(handle && !handle.closed) {
+            handle.postMessage(post, '*');
+        } else {
+            handle = open(glob.uiURL+'/subpage.html')
+            //let newWindow = open(glob.uiURL+'/subpage.html', 'Viewer', 'width=300,height=300')
+            //newWindow.focus();
+            handle.onload = function() {
+                let html = `<div style="font-size:30px">Welcome!</div>`;
+                handle.document.body.insertAdjacentHTML('afterbegin', html); 
+                handle.postMessage(post, '*');
+            };
+            viewHandle.set(handle);
+        }
     }
 </script>
 <style>
@@ -71,7 +80,7 @@
     <div class="postBody">
         <ul class="postHeader">
             <li><a target="_blank" href={imagePath}>{post.fileName}</a></li>
-            <li><button on:click={()=>openWindow({imagePath})}>Ext.Window</button></li>
+            <li><button on:click={()=>openWindow({post})}>Ext.Window</button></li>
         </ul>
         {#if post.fileName != ""}
             {#if showThumb}
