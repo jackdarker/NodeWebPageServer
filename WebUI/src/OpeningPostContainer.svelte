@@ -1,5 +1,6 @@
 <script>
-import { onMount } from "svelte";
+    import { onMount } from "svelte";
+    import * as glob from "./const.svelte";
     export let post;
     let imagePath, thumbPath;   
     let showThumb = true;
@@ -12,6 +13,15 @@ import { onMount } from "svelte";
 
     function thumbToggle(){
         showThumb = !showThumb;
+    }
+    function openWindow(post){
+        let newWindow = open(glob.uiURL+'/subpage.html')
+        //let newWindow = open(glob.uiURL+'/subpage.html', 'Viewer', 'width=300,height=300')
+        //newWindow.focus();
+        newWindow.onload = function() {
+        let html = `<div style="font-size:30px">Welcome!</div>`;
+            newWindow.document.body.insertAdjacentHTML('afterbegin', html); 
+        };
     }
 </script>
 <style>
@@ -61,9 +71,7 @@ import { onMount } from "svelte";
     <div class="postBody">
         <ul class="postHeader">
             <li><a target="_blank" href={imagePath}>{post.fileName}</a></li>
-            <li><a target="_blank" href="https://yandex.com/images/search?rpt=imageview&url={url+imagePath}">Yandex</a></li>
-            <li><a target="_blank" href="https://www.google.com/searchbyimage?image_url={url+imagePath}">Google</a></li>
-            <li><a target="_blank" href="https://saucenao.com/search.php?url={url+imagePath}">SauceNao</a></li>
+            <li><button on:click={()=>openWindow({imagePath})}>Ext.Window</button></li>
         </ul>
         {#if post.fileName != ""}
             {#if showThumb}

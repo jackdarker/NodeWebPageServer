@@ -12,6 +12,7 @@ import { onMount } from "svelte";
     function thumbToggle(){
         showThumb = !showThumb;
     }
+    
 </script>
 <style>
     .postContainer{
@@ -67,9 +68,6 @@ import { onMount } from "svelte";
     </ul>
     <ul class="postHeader">
         <li><a target="_blank" href={imagePath}>{post.fileName}</a></li>
-        <li><a target="_blank" href="https://yandex.com/images/search?rpt=imageview&url={url+imagePath}">Yandex</a></li>
-        <li><a target="_blank" href="https://www.google.com/searchbyimage?image_url={url+imagePath}">Google</a></li>
-        <li><a target="_blank" href="https://saucenao.com/search.php?url={url+imagePath}">SauceNao</a></li>
     </ul>
     <div class="postBody">
         {#if post.fileName != ""}
