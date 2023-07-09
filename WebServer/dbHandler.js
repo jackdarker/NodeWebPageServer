@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const boardPost = require("./boardPost.js");
-const boardPair = require("./boardPair.js");
+const {boardPair,Tag} = require("./boardPair.js");
 let db = new sqlite3.Database('./rinChan.db', (err) => {
 	if (err){
 		console.log("dbHandler::error "+err);
@@ -55,6 +55,25 @@ class dbHandler {
 					} else {
 						rows.forEach((row)=>{				
 							results.push(new boardPair(row.boardID,row.boardName));
+						});
+						resolve(results);
+					}
+				});
+			});
+		})
+	}
+	getTags(){
+		let query = `SELECT ID,Name FROM Tags`
+		let results = [];
+		return new Promise((resolve,reject) =>{
+			db.serialize(() => {
+				db.all(query, (err,rows) => {
+					if (err){
+						console.log("dbHandler::getTags" + err);
+						reject(err);
+					} else {
+						rows.forEach((row)=>{				
+							results.push(new Tag(row.ID,row.Name));
 						});
 						resolve(results);
 					}

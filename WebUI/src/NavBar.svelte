@@ -4,6 +4,7 @@
     import ReplyInputContainer from "./ReplyInputContainer.svelte";
     import TagInputContainer from "./TagInputContainer.svelte";
     const dispatch = createEventDispatcher();
+    const fruits= ["Açaí", "Akee", "Apple", "Apricot", "Avocado", "Banana", "Bilberry", "Black sapote"];
     let showReplyBox = false; 
     let showTagEditBox=false;
     let searchString = "";

@@ -4,5 +4,9 @@ class boardPair {
 		this.boardName = boardName;
 	}
 }
-
-module.exports = boardPair;
+class Tag{
+	constructor(tagID,tagName){
+		this.tagID=tagID,this.tagName=tagName;
+	}
+}
+module.exports = {boardPair,Tag};

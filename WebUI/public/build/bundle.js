@@ -151,16 +151,6 @@ var app = (function () {
             return true;
         };
     }
-    // TODO figure out if we still want to support
-    // shorthand events, or if we want to implement
-    // a real bubbling mechanism
-    function bubble(component, event) {
-        const callbacks = component.$$.callbacks[event.type];
-        if (callbacks) {
-            // @ts-ignore
-            callbacks.slice().forEach(fn => fn.call(this, event));
-        }
-    }
 
     const dirty_components = [];
     const binding_callbacks = [];
@@ -176,6 +166,9 @@ var app = (function () {
     }
     function add_render_callback(fn) {
         render_callbacks.push(fn);
+    }
+    function add_flush_callback(fn) {
+        flush_callbacks.push(fn);
     }
     // flush() calls callbacks in this order:
     // 1. All beforeUpdate callbacks, in order: parents before children
@@ -305,6 +298,21 @@ var app = (function () {
         }
         else if (callback) {
             callback();
+        }
+    }
+    function each(items, fn) {
+        let str = '';
+        for (let i = 0; i < items.length; i += 1) {
+            str += fn(items[i], i);
+        }
+        return str;
+    }
+
+    function bind(component, name, callback) {
+        const index = component.$$.props[name];
+        if (index !== undefined) {
+            component.$$.bound[index] = callback;
+            callback(component.$$.ctx[index]);
         }
     }
     function create_component(block) {
@@ -527,7 +535,7 @@ var app = (function () {
     const file$6 = "src\\PostContainer.svelte";
 
     // (75:8) {#if post.fileName != ""}
-    function create_if_block$5(ctx) {
+    function create_if_block$6(ctx) {
     	let if_block_anchor;
 
     	function select_block_type(ctx, dirty) {
@@ -568,7 +576,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$5.name,
+    		id: create_if_block$6.name,
     		type: "if",
     		source: "(75:8) {#if post.fileName != \\\"\\\"}",
     		ctx
@@ -679,7 +687,7 @@ var app = (function () {
     	return block;
     }
 
-    function create_fragment$6(ctx) {
+    function create_fragment$7(ctx) {
     	let div1;
     	let ul0;
     	let li0;
@@ -721,7 +729,7 @@ var app = (function () {
     	let p;
     	let t16_value = /*post*/ ctx[0].postText + "";
     	let t16;
-    	let if_block = /*post*/ ctx[0].fileName != "" && create_if_block$5(ctx);
+    	let if_block = /*post*/ ctx[0].fileName != "" && create_if_block$6(ctx);
 
     	const block = {
     		c: function create() {
@@ -866,7 +874,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$5(ctx);
+    					if_block = create_if_block$6(ctx);
     					if_block.c();
     					if_block.m(div0, t15);
     				}
@@ -887,7 +895,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$6.name,
+    		id: create_fragment$7.name,
     		type: "component",
     		source: "",
     		ctx
@@ -896,7 +904,7 @@ var app = (function () {
     	return block;
     }
 
-    function instance$6($$self, $$props, $$invalidate) {
+    function instance$7($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('PostContainer', slots, []);
     	let { post } = $$props;
@@ -958,13 +966,13 @@ var app = (function () {
     class PostContainer extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$6, create_fragment$6, safe_not_equal, { post: 0 });
+    		init(this, options, instance$7, create_fragment$7, safe_not_equal, { post: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "PostContainer",
     			options,
-    			id: create_fragment$6.name
+    			id: create_fragment$7.name
     		});
     	}
 
@@ -981,7 +989,7 @@ var app = (function () {
     const file$5 = "src\\OpeningPostContainer.svelte";
 
     // (68:8) {#if post.fileName != ""}
-    function create_if_block$4(ctx) {
+    function create_if_block$5(ctx) {
     	let if_block_anchor;
 
     	function select_block_type(ctx, dirty) {
@@ -1022,7 +1030,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$4.name,
+    		id: create_if_block$5.name,
     		type: "if",
     		source: "(68:8) {#if post.fileName != \\\"\\\"}",
     		ctx
@@ -1133,7 +1141,7 @@ var app = (function () {
     	return block;
     }
 
-    function create_fragment$5(ctx) {
+    function create_fragment$6(ctx) {
     	let div1;
     	let div0;
     	let ul0;
@@ -1181,7 +1189,7 @@ var app = (function () {
     	let p;
     	let t18_value = /*post*/ ctx[0].postText + "";
     	let t18;
-    	let if_block = /*post*/ ctx[0].fileName != "" && create_if_block$4(ctx);
+    	let if_block = /*post*/ ctx[0].fileName != "" && create_if_block$5(ctx);
 
     	const block = {
     		c: function create() {
@@ -1332,7 +1340,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$4(ctx);
+    					if_block = create_if_block$5(ctx);
     					if_block.c();
     					if_block.m(div0, t8);
     				}
@@ -1362,7 +1370,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$5.name,
+    		id: create_fragment$6.name,
     		type: "component",
     		source: "",
     		ctx
@@ -1371,7 +1379,7 @@ var app = (function () {
     	return block;
     }
 
-    function instance$5($$self, $$props, $$invalidate) {
+    function instance$6($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('OpeningPostContainer', slots, []);
     	let { post } = $$props;
@@ -1433,13 +1441,13 @@ var app = (function () {
     class OpeningPostContainer extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$5, create_fragment$5, safe_not_equal, { post: 0 });
+    		init(this, options, instance$6, create_fragment$6, safe_not_equal, { post: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "OpeningPostContainer",
     			options,
-    			id: create_fragment$5.name
+    			id: create_fragment$6.name
     		});
     	}
 
@@ -1454,7 +1462,71 @@ var app = (function () {
 
     /* src\const.svelte generated by Svelte v3.59.2 */
 
+    function create_fragment$5(ctx) {
+    	const block = {
+    		c: noop,
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: noop,
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d: noop
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$5.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
     const apiURL = "http://127.0.0.1:30050/api/";
+
+    async function getTags() {
+    	const res = await fetch(apiURL + "tags");
+    	let data = await res.json();
+    	return data;
+    }
+
+    function instance$5($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('Const', slots, []);
+    	const writable_props = [];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Const> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$capture_state = () => ({ apiURL, getTags });
+    	return [];
+    }
+
+    class Const extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$5, create_fragment$5, safe_not_equal, {});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Const",
+    			options,
+    			id: create_fragment$5.name
+    		});
+    	}
+    }
+
+    var glob = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        'default': Const,
+        apiURL: apiURL,
+        getTags: getTags
+    });
 
     /* src\ReplyInputContainer.svelte generated by Svelte v3.59.2 */
 
@@ -1510,7 +1582,7 @@ var app = (function () {
     }
 
     // (104:8) {#if imageSource != null}
-    function create_if_block$3(ctx) {
+    function create_if_block$4(ctx) {
     	let img;
     	let img_src_value;
 
@@ -1538,7 +1610,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$3.name,
+    		id: create_if_block$4.name,
     		type: "if",
     		source: "(104:8) {#if imageSource != null}",
     		ctx
@@ -1562,7 +1634,7 @@ var app = (function () {
     	let mounted;
     	let dispose;
     	let if_block0 = /*threadID*/ ctx[2] == null && create_if_block_1$2(ctx);
-    	let if_block1 = /*imageSource*/ ctx[1] != null && create_if_block$3(ctx);
+    	let if_block1 = /*imageSource*/ ctx[1] != null && create_if_block$4(ctx);
 
     	const block = {
     		c: function create() {
@@ -1655,7 +1727,7 @@ var app = (function () {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
     				} else {
-    					if_block1 = create_if_block$3(ctx);
+    					if_block1 = create_if_block$4(ctx);
     					if_block1.c();
     					if_block1.m(form, t3);
     				}
@@ -1820,46 +1892,226 @@ var app = (function () {
     	}
     }
 
-    /* src\SearchProposal.svelte generated by Svelte v3.59.2 */
+    /* src\TagSearchBox.svelte generated by Svelte v3.59.2 */
 
-    const file$3 = "src\\SearchProposal.svelte";
+    const file$3 = "src\\TagSearchBox.svelte";
 
-    function create_fragment$3(ctx) {
+    function get_each_context$3(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[18] = list[i];
+    	child_ctx[20] = i;
+    	return child_ctx;
+    }
+
+    // (146:0) {#if filteredItems.length > 0}
+    function create_if_block$3(ctx) {
+    	let ul;
+    	let each_value = /*filteredItems*/ ctx[2];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block$3(get_each_context$3(ctx, each_value, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			ul = element("ul");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr_dev(ul, "id", "autocomplete-items-list");
+    			attr_dev(ul, "class", "svelte-16vetbs");
+    			add_location(ul, file$3, 146, 0, 6809);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, ul, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(ul, null);
+    				}
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*hiLiteIndex, setInputVal, filteredItems*/ 76) {
+    				each_value = /*filteredItems*/ ctx[2];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$3(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block$3(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(ul, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(ul);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$3.name,
+    		type: "if",
+    		source: "(146:0) {#if filteredItems.length > 0}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (148:0) {#each filteredItems as item, i}
+    function create_each_block$3(ctx) {
     	let li;
+    	let raw_value = /*item*/ ctx[18] + "";
+    	let t;
     	let mounted;
     	let dispose;
+
+    	function click_handler() {
+    		return /*click_handler*/ ctx[11](/*item*/ ctx[18]);
+    	}
 
     	const block = {
     		c: function create() {
     			li = element("li");
-    			attr_dev(li, "class", "autocomplete-items svelte-1eewcgr");
-    			toggle_class(li, "autocomplete-active", /*highlighted*/ ctx[1]);
-    			add_location(li, file$3, 39, 2, 964);
+    			t = space();
+    			attr_dev(li, "class", "autocomplete-items svelte-16vetbs");
+    			toggle_class(li, "autocomplete-active", /*i*/ ctx[20] === /*hiLiteIndex*/ ctx[3]);
+    			add_location(li, file$3, 148, 4, 6886);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, li, anchor);
+    			li.innerHTML = raw_value;
+    			insert_dev(target, t, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(li, "click", click_handler, false, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			if (dirty & /*filteredItems*/ 4 && raw_value !== (raw_value = /*item*/ ctx[18] + "")) li.innerHTML = raw_value;
+    			if (dirty & /*hiLiteIndex*/ 8) {
+    				toggle_class(li, "autocomplete-active", /*i*/ ctx[20] === /*hiLiteIndex*/ ctx[3]);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(li);
+    			if (detaching) detach_dev(t);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block$3.name,
+    		type: "each",
+    		source: "(148:0) {#each filteredItems as item, i}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$3(ctx) {
+    	let div;
+    	let input;
+    	let t;
+    	let if_block_anchor;
+    	let mounted;
+    	let dispose;
+    	let if_block = /*filteredItems*/ ctx[2].length > 0 && create_if_block$3(ctx);
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			input = element("input");
+    			t = space();
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
+    			attr_dev(input, "id", "search-input");
+    			attr_dev(input, "name", "name");
+    			attr_dev(input, "type", "text");
+    			attr_dev(input, "placeholder", /*placeholder*/ ctx[1]);
+    			attr_dev(input, "class", "svelte-16vetbs");
+    			add_location(input, file$3, 138, 4, 6497);
+    			attr_dev(div, "class", "autocomplete svelte-16vetbs");
+    			add_location(div, file$3, 137, 0, 6465);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, li, anchor);
-    			li.innerHTML = /*itemLabel*/ ctx[0];
+    			insert_dev(target, div, anchor);
+    			append_dev(div, input);
+    			/*input_binding*/ ctx[9](input);
+    			set_input_value(input, /*inputValue*/ ctx[0]);
+    			insert_dev(target, t, anchor);
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(li, "click", /*click_handler*/ ctx[2], false, false, false, false);
+    				dispose = [
+    					listen_dev(window, "keydown", /*navigateList*/ ctx[7], false, false, false, false),
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[10]),
+    					listen_dev(input, "input", /*filterItems*/ ctx[5], false, false, false, false)
+    				];
+
     				mounted = true;
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*itemLabel*/ 1) li.innerHTML = /*itemLabel*/ ctx[0];
-    			if (dirty & /*highlighted*/ 2) {
-    				toggle_class(li, "autocomplete-active", /*highlighted*/ ctx[1]);
+    			if (dirty & /*placeholder*/ 2) {
+    				attr_dev(input, "placeholder", /*placeholder*/ ctx[1]);
+    			}
+
+    			if (dirty & /*inputValue*/ 1 && input.value !== /*inputValue*/ ctx[0]) {
+    				set_input_value(input, /*inputValue*/ ctx[0]);
+    			}
+
+    			if (/*filteredItems*/ ctx[2].length > 0) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block$3(ctx);
+    					if_block.c();
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
     			}
     		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(li);
+    			if (detaching) detach_dev(div);
+    			/*input_binding*/ ctx[9](null);
+    			if (detaching) detach_dev(t);
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
     			mounted = false;
-    			dispose();
+    			run_all(dispose);
     		}
     	};
 
@@ -1875,418 +2127,11 @@ var app = (function () {
     }
 
     function instance$3($$self, $$props, $$invalidate) {
-    	let { $$slots: slots = {}, $$scope } = $$props;
-    	validate_slots('SearchProposal', slots, []);
-    	let { itemLabel } = $$props;
-    	let { highlighted } = $$props;
-
-    	$$self.$$.on_mount.push(function () {
-    		if (itemLabel === undefined && !('itemLabel' in $$props || $$self.$$.bound[$$self.$$.props['itemLabel']])) {
-    			console.warn("<SearchProposal> was created without expected prop 'itemLabel'");
-    		}
-
-    		if (highlighted === undefined && !('highlighted' in $$props || $$self.$$.bound[$$self.$$.props['highlighted']])) {
-    			console.warn("<SearchProposal> was created without expected prop 'highlighted'");
-    		}
-    	});
-
-    	const writable_props = ['itemLabel', 'highlighted'];
-
-    	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<SearchProposal> was created with unknown prop '${key}'`);
-    	});
-
-    	function click_handler(event) {
-    		bubble.call(this, $$self, event);
-    	}
-
-    	$$self.$$set = $$props => {
-    		if ('itemLabel' in $$props) $$invalidate(0, itemLabel = $$props.itemLabel);
-    		if ('highlighted' in $$props) $$invalidate(1, highlighted = $$props.highlighted);
-    	};
-
-    	$$self.$capture_state = () => ({ itemLabel, highlighted });
-
-    	$$self.$inject_state = $$props => {
-    		if ('itemLabel' in $$props) $$invalidate(0, itemLabel = $$props.itemLabel);
-    		if ('highlighted' in $$props) $$invalidate(1, highlighted = $$props.highlighted);
-    	};
-
-    	if ($$props && "$$inject" in $$props) {
-    		$$self.$inject_state($$props.$$inject);
-    	}
-
-    	return [itemLabel, highlighted, click_handler];
-    }
-
-    class SearchProposal extends SvelteComponentDev {
-    	constructor(options) {
-    		super(options);
-    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { itemLabel: 0, highlighted: 1 });
-
-    		dispatch_dev("SvelteRegisterComponent", {
-    			component: this,
-    			tagName: "SearchProposal",
-    			options,
-    			id: create_fragment$3.name
-    		});
-    	}
-
-    	get itemLabel() {
-    		throw new Error("<SearchProposal>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set itemLabel(value) {
-    		throw new Error("<SearchProposal>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	get highlighted() {
-    		throw new Error("<SearchProposal>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set highlighted(value) {
-    		throw new Error("<SearchProposal>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-    }
-
-    /* src\TagInputContainer.svelte generated by Svelte v3.59.2 */
-
-    const { console: console_1$2, window: window_1 } = globals;
-    const file$2 = "src\\TagInputContainer.svelte";
-
-    function get_each_context$2(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[23] = list[i];
-    	child_ctx[25] = i;
-    	return child_ctx;
-    }
-
-    // (204:8) {#if filteredCountries.length > 0}
-    function create_if_block$2(ctx) {
-    	let ul;
-    	let current;
-    	let each_value = /*filteredCountries*/ ctx[0];
-    	validate_each_argument(each_value);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
-    	}
-
-    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
-    		each_blocks[i] = null;
-    	});
-
-    	const block = {
-    		c: function create() {
-    			ul = element("ul");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			attr_dev(ul, "id", "autocomplete-items-list");
-    			attr_dev(ul, "class", "svelte-jriup1");
-    			add_location(ul, file$2, 204, 12, 9027);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, ul, anchor);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				if (each_blocks[i]) {
-    					each_blocks[i].m(ul, null);
-    				}
-    			}
-
-    			current = true;
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*filteredCountries, hiLiteIndex, setInputVal*/ 133) {
-    				each_value = /*filteredCountries*/ ctx[0];
-    				validate_each_argument(each_value);
-    				let i;
-
-    				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$2(ctx, each_value, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    						transition_in(each_blocks[i], 1);
-    					} else {
-    						each_blocks[i] = create_each_block$2(child_ctx);
-    						each_blocks[i].c();
-    						transition_in(each_blocks[i], 1);
-    						each_blocks[i].m(ul, null);
-    					}
-    				}
-
-    				group_outros();
-
-    				for (i = each_value.length; i < each_blocks.length; i += 1) {
-    					out(i);
-    				}
-
-    				check_outros();
-    			}
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-
-    			for (let i = 0; i < each_value.length; i += 1) {
-    				transition_in(each_blocks[i]);
-    			}
-
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			each_blocks = each_blocks.filter(Boolean);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				transition_out(each_blocks[i]);
-    			}
-
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(ul);
-    			destroy_each(each_blocks, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block$2.name,
-    		type: "if",
-    		source: "(204:8) {#if filteredCountries.length > 0}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (206:12) {#each filteredCountries as country, i}
-    function create_each_block$2(ctx) {
-    	let country;
-    	let current;
-
-    	function click_handler() {
-    		return /*click_handler*/ ctx[12](/*country*/ ctx[23]);
-    	}
-
-    	country = new SearchProposal({
-    			props: {
-    				itemLabel: /*country*/ ctx[23],
-    				highlighted: /*i*/ ctx[25] === /*hiLiteIndex*/ ctx[2]
-    			},
-    			$$inline: true
-    		});
-
-    	country.$on("click", click_handler);
-
-    	const block = {
-    		c: function create() {
-    			create_component(country.$$.fragment);
-    		},
-    		m: function mount(target, anchor) {
-    			mount_component(country, target, anchor);
-    			current = true;
-    		},
-    		p: function update(new_ctx, dirty) {
-    			ctx = new_ctx;
-    			const country_changes = {};
-    			if (dirty & /*filteredCountries*/ 1) country_changes.itemLabel = /*country*/ ctx[23];
-    			if (dirty & /*hiLiteIndex*/ 4) country_changes.highlighted = /*i*/ ctx[25] === /*hiLiteIndex*/ ctx[2];
-    			country.$set(country_changes);
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(country.$$.fragment, local);
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(country.$$.fragment, local);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			destroy_component(country, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block$2.name,
-    		type: "each",
-    		source: "(206:12) {#each filteredCountries as country, i}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    function create_fragment$2(ctx) {
-    	let div1;
-    	let form;
-    	let div0;
-    	let input0;
-    	let t0;
-    	let input1;
-    	let t1;
-    	let button;
-    	let t3;
-    	let current;
-    	let mounted;
-    	let dispose;
-    	let if_block = /*filteredCountries*/ ctx[0].length > 0 && create_if_block$2(ctx);
-
-    	const block = {
-    		c: function create() {
-    			div1 = element("div");
-    			form = element("form");
-    			div0 = element("div");
-    			input0 = element("input");
-    			t0 = space();
-    			input1 = element("input");
-    			t1 = space();
-    			button = element("button");
-    			button.textContent = "Submit";
-    			t3 = space();
-    			if (if_block) if_block.c();
-    			attr_dev(input0, "id", "country-input");
-    			attr_dev(input0, "type", "text");
-    			attr_dev(input0, "placeholder", "Search Country Names");
-    			attr_dev(input0, "class", "svelte-jriup1");
-    			add_location(input0, file$2, 192, 12, 8407);
-    			attr_dev(div0, "class", "autocomplete svelte-jriup1");
-    			add_location(div0, file$2, 191, 8, 8367);
-    			attr_dev(input1, "type", "text");
-    			attr_dev(input1, "id", "nameInput");
-    			attr_dev(input1, "placeholder", "Name");
-    			attr_dev(input1, "name", "name");
-    			attr_dev(input1, "class", "svelte-jriup1");
-    			add_location(input1, file$2, 199, 8, 8737);
-    			attr_dev(button, "id", "replySubmit");
-    			attr_dev(button, "class", "svelte-jriup1");
-    			add_location(button, file$2, 200, 8, 8841);
-    			attr_dev(form, "action", apiURL + "/submitTag");
-    			attr_dev(form, "enctype", "multipart/form-data");
-    			attr_dev(form, "method", "post");
-    			attr_dev(form, "id", "postForm");
-    			attr_dev(form, "autocomplete", "off");
-    			attr_dev(form, "class", "svelte-jriup1");
-    			add_location(form, file$2, 190, 4, 8242);
-    			attr_dev(div1, "class", "replyBox svelte-jriup1");
-    			add_location(div1, file$2, 189, 0, 8214);
-    		},
-    		l: function claim(nodes) {
-    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div1, anchor);
-    			append_dev(div1, form);
-    			append_dev(form, div0);
-    			append_dev(div0, input0);
-    			/*input0_binding*/ ctx[9](input0);
-    			set_input_value(input0, /*inputValue*/ ctx[1]);
-    			append_dev(form, t0);
-    			append_dev(form, input1);
-    			set_input_value(input1, /*boardPost*/ ctx[3].name);
-    			append_dev(form, t1);
-    			append_dev(form, button);
-    			append_dev(form, t3);
-    			if (if_block) if_block.m(form, null);
-    			current = true;
-
-    			if (!mounted) {
-    				dispose = [
-    					listen_dev(window_1, "keydown", /*navigateList*/ ctx[8], false, false, false, false),
-    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[10]),
-    					listen_dev(input0, "input", /*filterCountries*/ ctx[6], false, false, false, false),
-    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[11]),
-    					listen_dev(button, "click", prevent_default(/*validateInputs*/ ctx[5]), false, true, false, false)
-    				];
-
-    				mounted = true;
-    			}
-    		},
-    		p: function update(ctx, [dirty]) {
-    			if (dirty & /*inputValue*/ 2 && input0.value !== /*inputValue*/ ctx[1]) {
-    				set_input_value(input0, /*inputValue*/ ctx[1]);
-    			}
-
-    			if (dirty & /*boardPost*/ 8 && input1.value !== /*boardPost*/ ctx[3].name) {
-    				set_input_value(input1, /*boardPost*/ ctx[3].name);
-    			}
-
-    			if (/*filteredCountries*/ ctx[0].length > 0) {
-    				if (if_block) {
-    					if_block.p(ctx, dirty);
-
-    					if (dirty & /*filteredCountries*/ 1) {
-    						transition_in(if_block, 1);
-    					}
-    				} else {
-    					if_block = create_if_block$2(ctx);
-    					if_block.c();
-    					transition_in(if_block, 1);
-    					if_block.m(form, null);
-    				}
-    			} else if (if_block) {
-    				group_outros();
-
-    				transition_out(if_block, 1, 1, () => {
-    					if_block = null;
-    				});
-
-    				check_outros();
-    			}
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(if_block);
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(if_block);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div1);
-    			/*input0_binding*/ ctx[9](null);
-    			if (if_block) if_block.d();
-    			mounted = false;
-    			run_all(dispose);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_fragment$2.name,
-    		type: "component",
-    		source: "",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    function instance$2($$self, $$props, $$invalidate) {
     	let hiLitedCountry;
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	validate_slots('TagInputContainer', slots, []);
-    	let urlparams = new URLSearchParams(window.location.search);
-    	let threadID = urlparams.get('thread');
-    	let boardID = urlparams.get('board');
+    	validate_slots('TagSearchBox', slots, []);
 
-    	let boardPost = {
-    		"name": "Anonymous ",
-    		"subject": "",
-    		"posterID": "",
-    		"replyToID": "",
-    		"postText": "",
-    		"boardID": ""
-    	};
-
-    	const countries = [
+    	let { itemList = [
     		"Afghanistan",
     		"Albania",
     		"Algeria",
@@ -2509,12 +2354,505 @@ var app = (function () {
     		"Yemen",
     		"Zambia",
     		"Zimbabwe"
+    	] } = $$props;
+
+    	let { placeholder = "Search Name" } = $$props;
+    	let { inputValue = "" } = $$props;
+
+    	/* FILTERING countres DATA BASED ON INPUT */
+    	let filteredItems = [];
+
+    	let itemLabel;
+    	let highlighted;
+
+    	// $: console.log(filteredCountries)	
+    	const filterItems = () => {
+    		let storageArr = [];
+
+    		if (inputValue) {
+    			itemList.forEach(item => {
+    				if (item.toLowerCase().startsWith(inputValue.toLowerCase())) {
+    					storageArr = [...storageArr, makeMatchBold(item)];
+    				}
+    			});
+    		}
+
+    		$$invalidate(2, filteredItems = storageArr);
+    	};
+
+    	/* HANDLING THE INPUT */
+    	let searchInput; // use with bind:this to focus element
+
+    	const clearInput = () => {
+    		$$invalidate(0, inputValue = "");
+    		searchInput.focus();
+    	};
+
+    	const setInputVal = countryName => {
+    		$$invalidate(0, inputValue = removeBold(countryName));
+    		$$invalidate(2, filteredItems = []);
+    		$$invalidate(3, hiLiteIndex = null);
+    		document.querySelector('#search-input').focus();
+    	};
+
+    	const makeMatchBold = str => {
+    		// replace part of ( name === inputValue) with strong tags
+    		let matched = str.substring(0, inputValue.length);
+
+    		let makeBold = `<strong>${matched}</strong>`;
+    		let boldedMatch = str.replace(matched, makeBold);
+    		return boldedMatch;
+    	};
+
+    	const removeBold = str => {
+    		//replace < and > all characters between
+    		return str.replace(/<(.)*?>/g, "");
+    	}; // return str.replace(/<(strong)>/g, "").replace(/<\/(strong)>/g, "");
+
+    	/* NAVIGATING OVER THE LIST OF COUNTRIES W HIGHLIGHTING */
+    	let hiLiteIndex = null;
+
+    	const navigateList = e => {
+    		if (e.key === "ArrowDown" && hiLiteIndex <= filteredItems.length - 1) {
+    			hiLiteIndex === null
+    			? $$invalidate(3, hiLiteIndex = 0)
+    			: $$invalidate(3, hiLiteIndex += 1);
+    		} else if (e.key === "ArrowUp" && hiLiteIndex !== null) {
+    			hiLiteIndex === 0
+    			? $$invalidate(3, hiLiteIndex = filteredItems.length - 1)
+    			: $$invalidate(3, hiLiteIndex -= 1);
+    		} else if (e.key === "Enter") {
+    			setInputVal(filteredItems[hiLiteIndex]);
+    		} else {
+    			return;
+    		}
+    	};
+
+    	const writable_props = ['itemList', 'placeholder', 'inputValue'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<TagSearchBox> was created with unknown prop '${key}'`);
+    	});
+
+    	function input_binding($$value) {
+    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
+    			searchInput = $$value;
+    			$$invalidate(4, searchInput);
+    		});
+    	}
+
+    	function input_input_handler() {
+    		inputValue = this.value;
+    		$$invalidate(0, inputValue);
+    	}
+
+    	const click_handler = item => setInputVal(item);
+
+    	$$self.$$set = $$props => {
+    		if ('itemList' in $$props) $$invalidate(8, itemList = $$props.itemList);
+    		if ('placeholder' in $$props) $$invalidate(1, placeholder = $$props.placeholder);
+    		if ('inputValue' in $$props) $$invalidate(0, inputValue = $$props.inputValue);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		itemList,
+    		placeholder,
+    		inputValue,
+    		filteredItems,
+    		itemLabel,
+    		highlighted,
+    		filterItems,
+    		searchInput,
+    		clearInput,
+    		setInputVal,
+    		makeMatchBold,
+    		removeBold,
+    		hiLiteIndex,
+    		navigateList,
+    		hiLitedCountry
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('itemList' in $$props) $$invalidate(8, itemList = $$props.itemList);
+    		if ('placeholder' in $$props) $$invalidate(1, placeholder = $$props.placeholder);
+    		if ('inputValue' in $$props) $$invalidate(0, inputValue = $$props.inputValue);
+    		if ('filteredItems' in $$props) $$invalidate(2, filteredItems = $$props.filteredItems);
+    		if ('itemLabel' in $$props) itemLabel = $$props.itemLabel;
+    		if ('highlighted' in $$props) highlighted = $$props.highlighted;
+    		if ('searchInput' in $$props) $$invalidate(4, searchInput = $$props.searchInput);
+    		if ('hiLiteIndex' in $$props) $$invalidate(3, hiLiteIndex = $$props.hiLiteIndex);
+    		if ('hiLitedCountry' in $$props) hiLitedCountry = $$props.hiLitedCountry;
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*inputValue*/ 1) {
+    			if (!inputValue) {
+    				$$invalidate(2, filteredItems = []);
+    				$$invalidate(3, hiLiteIndex = null);
+    			}
+    		}
+
+    		if ($$self.$$.dirty & /*filteredItems, hiLiteIndex*/ 12) {
+    			//$: console.log(hiLiteIndex);	
+    			hiLitedCountry = filteredItems[hiLiteIndex];
+    		}
+    	};
+
+    	return [
+    		inputValue,
+    		placeholder,
+    		filteredItems,
+    		hiLiteIndex,
+    		searchInput,
+    		filterItems,
+    		setInputVal,
+    		navigateList,
+    		itemList,
+    		input_binding,
+    		input_input_handler,
+    		click_handler
     	];
+    }
+
+    class TagSearchBox extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, {
+    			itemList: 8,
+    			placeholder: 1,
+    			inputValue: 0
+    		});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "TagSearchBox",
+    			options,
+    			id: create_fragment$3.name
+    		});
+    	}
+
+    	get itemList() {
+    		throw new Error("<TagSearchBox>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set itemList(value) {
+    		throw new Error("<TagSearchBox>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get placeholder() {
+    		throw new Error("<TagSearchBox>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set placeholder(value) {
+    		throw new Error("<TagSearchBox>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get inputValue() {
+    		throw new Error("<TagSearchBox>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set inputValue(value) {
+    		throw new Error("<TagSearchBox>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src\TagInputContainer.svelte generated by Svelte v3.59.2 */
+
+    const { console: console_1$2 } = globals;
+    const file$2 = "src\\TagInputContainer.svelte";
+
+    function get_each_context$2(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[9] = list[i];
+    	return child_ctx;
+    }
+
+    // (89:4) {#if tags!=undefined && tags.length > 0}
+    function create_if_block$2(ctx) {
+    	let each_1_anchor;
+    	let each_value = /*tags*/ ctx[1];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				if (each_blocks[i]) {
+    					each_blocks[i].m(target, anchor);
+    				}
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*tags*/ 2) {
+    				each_value = /*tags*/ ctx[1];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$2(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block$2(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$2.name,
+    		type: "if",
+    		source: "(89:4) {#if tags!=undefined && tags.length > 0}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (90:2) {#each tags as tag}
+    function create_each_block$2(ctx) {
+    	let span;
+    	let t0_value = /*tag*/ ctx[9].tagName + "";
+    	let t0;
+    	let t1;
+
+    	const block = {
+    		c: function create() {
+    			span = element("span");
+    			t0 = text(t0_value);
+    			t1 = space();
+    			attr_dev(span, "class", "tags");
+    			add_location(span, file$2, 90, 3, 2576);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, span, anchor);
+    			append_dev(span, t0);
+    			append_dev(span, t1);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*tags*/ 2 && t0_value !== (t0_value = /*tag*/ ctx[9].tagName + "")) set_data_dev(t0, t0_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(span);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block$2.name,
+    		type: "each",
+    		source: "(90:2) {#each tags as tag}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$2(ctx) {
+    	let div;
+    	let t0;
+    	let form;
+    	let tagsearchbox;
+    	let updating_inputValue;
+    	let t1;
+    	let input;
+    	let t2;
+    	let button;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	let if_block = /*tags*/ ctx[1] != undefined && /*tags*/ ctx[1].length > 0 && create_if_block$2(ctx);
+
+    	function tagsearchbox_inputValue_binding(value) {
+    		/*tagsearchbox_inputValue_binding*/ ctx[3](value);
+    	}
+
+    	let tagsearchbox_props = {
+    		itemList: ["bing", "google"],
+    		placeholder: "Name"
+    	};
+
+    	if (/*boardPost*/ ctx[0].name !== void 0) {
+    		tagsearchbox_props.inputValue = /*boardPost*/ ctx[0].name;
+    	}
+
+    	tagsearchbox = new TagSearchBox({
+    			props: tagsearchbox_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(tagsearchbox, 'inputValue', tagsearchbox_inputValue_binding));
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			if (if_block) if_block.c();
+    			t0 = space();
+    			form = element("form");
+    			create_component(tagsearchbox.$$.fragment);
+    			t1 = space();
+    			input = element("input");
+    			t2 = text("-->\r\n        ");
+    			button = element("button");
+    			button.textContent = "Submit";
+    			attr_dev(input, "type", "text");
+    			attr_dev(input, "id", "nameInput");
+    			attr_dev(input, "placeholder", "xyt");
+    			attr_dev(input, "name", "postText");
+    			attr_dev(input, "class", "svelte-6v8zid");
+    			add_location(input, file$2, 95, 8, 2872);
+    			attr_dev(button, "id", "replySubmit");
+    			attr_dev(button, "class", "svelte-6v8zid");
+    			add_location(button, file$2, 96, 8, 2986);
+    			attr_dev(form, "action", apiURL + "/submitTag");
+    			attr_dev(form, "enctype", "multipart/form-data");
+    			attr_dev(form, "method", "post");
+    			attr_dev(form, "id", "postForm");
+    			attr_dev(form, "autocomplete", "off");
+    			attr_dev(form, "class", "svelte-6v8zid");
+    			add_location(form, file$2, 93, 4, 2641);
+    			attr_dev(div, "class", "replyBox svelte-6v8zid");
+    			add_location(div, file$2, 87, 0, 2480);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			if (if_block) if_block.m(div, null);
+    			append_dev(div, t0);
+    			append_dev(div, form);
+    			mount_component(tagsearchbox, form, null);
+    			append_dev(form, t1);
+    			append_dev(form, input);
+    			set_input_value(input, /*boardPost*/ ctx[0].postText);
+    			append_dev(form, t2);
+    			append_dev(form, button);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[4]),
+    					listen_dev(button, "click", prevent_default(/*validateInputs*/ ctx[2]), false, true, false, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (/*tags*/ ctx[1] != undefined && /*tags*/ ctx[1].length > 0) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block$2(ctx);
+    					if_block.c();
+    					if_block.m(div, t0);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
+
+    			const tagsearchbox_changes = {};
+
+    			if (!updating_inputValue && dirty & /*boardPost*/ 1) {
+    				updating_inputValue = true;
+    				tagsearchbox_changes.inputValue = /*boardPost*/ ctx[0].name;
+    				add_flush_callback(() => updating_inputValue = false);
+    			}
+
+    			tagsearchbox.$set(tagsearchbox_changes);
+
+    			if (dirty & /*boardPost*/ 1 && input.value !== /*boardPost*/ ctx[0].postText) {
+    				set_input_value(input, /*boardPost*/ ctx[0].postText);
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(tagsearchbox.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(tagsearchbox.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			if (if_block) if_block.d();
+    			destroy_component(tagsearchbox);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$2.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$2($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('TagInputContainer', slots, []);
+    	let urlparams = new URLSearchParams(window.location.search);
+    	let threadID = urlparams.get('thread');
+    	let boardID = urlparams.get('board');
+
+    	let boardPost = {
+    		"name": "Anonymous ",
+    		"subject": "",
+    		"posterID": "",
+    		"replyToID": "",
+    		"postText": "",
+    		"boardID": ""
+    	};
+
+    	let tags;
 
     	//let apiURL="http://127.0.0.1:30050/api/";
-    	boardPost.replyToID = threadID;
-
-    	boardPost.boardID = boardID;
+    	onMount(async () => {
+    		$$invalidate(1, tags = await getTags());
+    		$$invalidate(0, boardPost.replyToID = threadID, boardPost);
+    		$$invalidate(0, boardPost.boardID = boardID, boardPost);
+    	});
 
     	//Function to send the reply to the api
     	async function submitReply() {
@@ -2523,7 +2861,12 @@ var app = (function () {
     		formData.append('posterID', boardPost.posterID);
     		formData.append('boardID', boardPost.boardID);
     		formData.append('replyToID', boardPost.replyToID);
+
+    		//for (const key of formData.keys()) {
+    		//    console.log(key);
+    		//}
     		let url;
+
     		url = apiURL + "submitTag";
     		let res = await fetch(url, { method: 'POST', body: formData });
     		let status = await res.status;
@@ -2541,176 +2884,56 @@ var app = (function () {
     		submitReply();
     	}
 
-    	/* FILTERING countres DATA BASED ON INPUT */
-    	let filteredCountries = [];
-
-    	// $: console.log(filteredCountries)	
-    	const filterCountries = () => {
-    		let storageArr = [];
-
-    		if (inputValue) {
-    			countries.forEach(country => {
-    				if (country.toLowerCase().startsWith(inputValue.toLowerCase())) {
-    					storageArr = [...storageArr, makeMatchBold(country)];
-    				}
-    			});
-    		}
-
-    		$$invalidate(0, filteredCountries = storageArr);
-    	};
-
-    	/* HANDLING THE INPUT */
-    	let searchInput; // use with bind:this to focus element
-
-    	let inputValue = "";
-
-    	const clearInput = () => {
-    		$$invalidate(1, inputValue = "");
-    		searchInput.focus();
-    	};
-
-    	const setInputVal = countryName => {
-    		$$invalidate(1, inputValue = removeBold(countryName));
-    		$$invalidate(0, filteredCountries = []);
-    		$$invalidate(2, hiLiteIndex = null);
-    		document.querySelector('#country-input').focus();
-    	};
-
-    	const submitValue = () => {
-    		if (inputValue) {
-    			console.log(`${inputValue} is submitted!`);
-    			setTimeout(clearInput, 1000);
-    		} else {
-    			alert("You didn't type anything.");
-    		}
-    	};
-
-    	const makeMatchBold = str => {
-    		// replace part of (country name === inputValue) with strong tags
-    		let matched = str.substring(0, inputValue.length);
-
-    		let makeBold = `<strong>${matched}</strong>`;
-    		let boldedMatch = str.replace(matched, makeBold);
-    		return boldedMatch;
-    	};
-
-    	const removeBold = str => {
-    		//replace < and > all characters between
-    		return str.replace(/<(.)*?>/g, "");
-    	}; // return str.replace(/<(strong)>/g, "").replace(/<\/(strong)>/g, "");
-
-    	/* NAVIGATING OVER THE LIST OF COUNTRIES W HIGHLIGHTING */
-    	let hiLiteIndex = null;
-
-    	const navigateList = e => {
-    		if (e.key === "ArrowDown" && hiLiteIndex <= filteredCountries.length - 1) {
-    			hiLiteIndex === null
-    			? $$invalidate(2, hiLiteIndex = 0)
-    			: $$invalidate(2, hiLiteIndex += 1);
-    		} else if (e.key === "ArrowUp" && hiLiteIndex !== null) {
-    			hiLiteIndex === 0
-    			? $$invalidate(2, hiLiteIndex = filteredCountries.length - 1)
-    			: $$invalidate(2, hiLiteIndex -= 1);
-    		} else if (e.key === "Enter") {
-    			setInputVal(filteredCountries[hiLiteIndex]);
-    		} else {
-    			return;
-    		}
-    	};
-
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$2.warn(`<TagInputContainer> was created with unknown prop '${key}'`);
     	});
 
-    	function input0_binding($$value) {
-    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
-    			searchInput = $$value;
-    			$$invalidate(4, searchInput);
-    		});
+    	function tagsearchbox_inputValue_binding(value) {
+    		if ($$self.$$.not_equal(boardPost.name, value)) {
+    			boardPost.name = value;
+    			$$invalidate(0, boardPost);
+    		}
     	}
 
-    	function input0_input_handler() {
-    		inputValue = this.value;
-    		$$invalidate(1, inputValue);
+    	function input_input_handler() {
+    		boardPost.postText = this.value;
+    		$$invalidate(0, boardPost);
     	}
-
-    	function input1_input_handler() {
-    		boardPost.name = this.value;
-    		$$invalidate(3, boardPost);
-    	}
-
-    	const click_handler = country => setInputVal(country);
 
     	$$self.$capture_state = () => ({
+    		onMount,
     		apiURL,
-    		Country: SearchProposal,
+    		getTags,
+    		TagSearchBox,
     		urlparams,
     		threadID,
     		boardID,
     		boardPost,
-    		countries,
+    		tags,
     		submitReply,
-    		validateInputs,
-    		filteredCountries,
-    		filterCountries,
-    		searchInput,
-    		inputValue,
-    		clearInput,
-    		setInputVal,
-    		submitValue,
-    		makeMatchBold,
-    		removeBold,
-    		hiLiteIndex,
-    		navigateList,
-    		hiLitedCountry
+    		validateInputs
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('urlparams' in $$props) urlparams = $$props.urlparams;
     		if ('threadID' in $$props) threadID = $$props.threadID;
     		if ('boardID' in $$props) boardID = $$props.boardID;
-    		if ('boardPost' in $$props) $$invalidate(3, boardPost = $$props.boardPost);
-    		if ('filteredCountries' in $$props) $$invalidate(0, filteredCountries = $$props.filteredCountries);
-    		if ('searchInput' in $$props) $$invalidate(4, searchInput = $$props.searchInput);
-    		if ('inputValue' in $$props) $$invalidate(1, inputValue = $$props.inputValue);
-    		if ('hiLiteIndex' in $$props) $$invalidate(2, hiLiteIndex = $$props.hiLiteIndex);
-    		if ('hiLitedCountry' in $$props) hiLitedCountry = $$props.hiLitedCountry;
+    		if ('boardPost' in $$props) $$invalidate(0, boardPost = $$props.boardPost);
+    		if ('tags' in $$props) $$invalidate(1, tags = $$props.tags);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*inputValue*/ 2) {
-    			if (!inputValue) {
-    				$$invalidate(0, filteredCountries = []);
-    				$$invalidate(2, hiLiteIndex = null);
-    			}
-    		}
-
-    		if ($$self.$$.dirty & /*filteredCountries, hiLiteIndex*/ 5) {
-    			//$: console.log(hiLiteIndex);	
-    			hiLitedCountry = filteredCountries[hiLiteIndex];
-    		}
-    	};
-
     	return [
-    		filteredCountries,
-    		inputValue,
-    		hiLiteIndex,
     		boardPost,
-    		searchInput,
+    		tags,
     		validateInputs,
-    		filterCountries,
-    		setInputVal,
-    		navigateList,
-    		input0_binding,
-    		input0_input_handler,
-    		input1_input_handler,
-    		click_handler
+    		tagsearchbox_inputValue_binding,
+    		input_input_handler
     	];
     }
 
@@ -2735,11 +2958,11 @@ var app = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[13] = list[i];
+    	child_ctx[14] = list[i];
     	return child_ctx;
     }
 
-    // (102:8) {#if boardPairs != undefined}
+    // (103:8) {#if boardPairs != undefined}
     function create_if_block_4$1(ctx) {
     	let if_block_anchor;
     	let if_block = /*boardPairs*/ ctx[0].length > 0 && create_if_block_5$1(ctx);
@@ -2777,14 +3000,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4$1.name,
     		type: "if",
-    		source: "(102:8) {#if boardPairs != undefined}",
+    		source: "(103:8) {#if boardPairs != undefined}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (103:12) {#if boardPairs.length > 0}
+    // (104:12) {#if boardPairs.length > 0}
     function create_if_block_5$1(ctx) {
     	let each_1_anchor;
     	let each_value = /*boardPairs*/ ctx[0];
@@ -2847,19 +3070,19 @@ var app = (function () {
     		block,
     		id: create_if_block_5$1.name,
     		type: "if",
-    		source: "(103:12) {#if boardPairs.length > 0}",
+    		source: "(104:12) {#if boardPairs.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (104:16) {#each boardPairs as boardPair}
+    // (105:16) {#each boardPairs as boardPair}
     function create_each_block$1(ctx) {
     	let li;
     	let a;
     	let t0;
-    	let t1_value = /*boardPair*/ ctx[13].boardID + "";
+    	let t1_value = /*boardPair*/ ctx[14].boardID + "";
     	let t1;
     	let t2;
     	let a_href_value;
@@ -2871,10 +3094,10 @@ var app = (function () {
     			t0 = text("/");
     			t1 = text(t1_value);
     			t2 = text("/");
-    			attr_dev(a, "href", a_href_value = "" + (/*url*/ ctx[4] + "?board=" + /*boardPair*/ ctx[13].boardID));
-    			add_location(a, file$1, 104, 42, 2768);
+    			attr_dev(a, "href", a_href_value = "" + (/*url*/ ctx[4] + "?board=" + /*boardPair*/ ctx[14].boardID));
+    			add_location(a, file$1, 105, 42, 2873);
     			attr_dev(li, "class", "boardLink svelte-nxmcc7");
-    			add_location(li, file$1, 104, 20, 2746);
+    			add_location(li, file$1, 105, 20, 2851);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -2884,9 +3107,9 @@ var app = (function () {
     			append_dev(a, t2);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*boardPairs*/ 1 && t1_value !== (t1_value = /*boardPair*/ ctx[13].boardID + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*boardPairs*/ 1 && t1_value !== (t1_value = /*boardPair*/ ctx[14].boardID + "")) set_data_dev(t1, t1_value);
 
-    			if (dirty & /*boardPairs*/ 1 && a_href_value !== (a_href_value = "" + (/*url*/ ctx[4] + "?board=" + /*boardPair*/ ctx[13].boardID))) {
+    			if (dirty & /*boardPairs*/ 1 && a_href_value !== (a_href_value = "" + (/*url*/ ctx[4] + "?board=" + /*boardPair*/ ctx[14].boardID))) {
     				attr_dev(a, "href", a_href_value);
     			}
     		},
@@ -2899,14 +3122,14 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(104:16) {#each boardPairs as boardPair}",
+    		source: "(105:16) {#each boardPairs as boardPair}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (114:8) {:else}
+    // (115:8) {:else}
     function create_else_block$1(ctx) {
     	let li;
     	let button;
@@ -2920,9 +3143,9 @@ var app = (function () {
     			button.textContent = "Reply";
     			attr_dev(button, "id", "replyButton");
     			attr_dev(button, "class", "svelte-nxmcc7");
-    			add_location(button, file$1, 114, 16, 3231);
+    			add_location(button, file$1, 115, 16, 3336);
     			attr_dev(li, "class", "svelte-nxmcc7");
-    			add_location(li, file$1, 114, 12, 3227);
+    			add_location(li, file$1, 115, 12, 3332);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -2945,14 +3168,14 @@ var app = (function () {
     		block,
     		id: create_else_block$1.name,
     		type: "else",
-    		source: "(114:8) {:else}",
+    		source: "(115:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (110:8) {#if threadID == null}
+    // (111:8) {#if threadID == null}
     function create_if_block_2$1(ctx) {
     	let if_block_anchor;
     	let if_block = /*boardID*/ ctx[9] != null && create_if_block_3$1(ctx);
@@ -2979,14 +3202,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$1.name,
     		type: "if",
-    		source: "(110:8) {#if threadID == null}",
+    		source: "(111:8) {#if threadID == null}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (111:12) {#if boardID != null}
+    // (112:12) {#if boardID != null}
     function create_if_block_3$1(ctx) {
     	let li;
     	let button;
@@ -3000,9 +3223,9 @@ var app = (function () {
     			button.textContent = "New Thread";
     			attr_dev(button, "id", "replyButton");
     			attr_dev(button, "class", "svelte-nxmcc7");
-    			add_location(button, file$1, 111, 20, 3105);
+    			add_location(button, file$1, 112, 20, 3210);
     			attr_dev(li, "class", "svelte-nxmcc7");
-    			add_location(li, file$1, 111, 16, 3101);
+    			add_location(li, file$1, 112, 16, 3206);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -3025,14 +3248,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3$1.name,
     		type: "if",
-    		source: "(111:12) {#if boardID != null}",
+    		source: "(112:12) {#if boardID != null}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (120:0) {#if showReplyBox}
+    // (121:0) {#if showReplyBox}
     function create_if_block_1$1(ctx) {
     	let replyinputcontainer;
     	let current;
@@ -3064,14 +3287,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(120:0) {#if showReplyBox}",
+    		source: "(121:0) {#if showReplyBox}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (123:0) {#if showTagEditBox}
+    // (124:0) {#if showTagEditBox}
     function create_if_block$1(ctx) {
     	let taginputcontainer;
     	let current;
@@ -3103,7 +3326,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(123:0) {#if showTagEditBox}",
+    		source: "(124:0) {#if showTagEditBox}",
     		ctx
     	});
 
@@ -3167,27 +3390,27 @@ var app = (function () {
     			if (if_block3) if_block3.c();
     			if_block3_anchor = empty();
     			attr_dev(p, "class", "svelte-nxmcc7");
-    			add_location(p, file$1, 100, 28, 2569);
+    			add_location(p, file$1, 101, 28, 2674);
     			attr_dev(a, "href", /*url*/ ctx[4]);
-    			add_location(a, file$1, 100, 12, 2553);
+    			add_location(a, file$1, 101, 12, 2658);
     			attr_dev(li0, "class", "svelte-nxmcc7");
-    			add_location(li0, file$1, 100, 8, 2549);
+    			add_location(li0, file$1, 101, 8, 2654);
     			attr_dev(input, "id", "searchInput");
     			attr_dev(input, "label", "Search");
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "svelte-nxmcc7");
-    			add_location(input, file$1, 108, 12, 2909);
+    			add_location(input, file$1, 109, 12, 3014);
     			attr_dev(li1, "class", "svelte-nxmcc7");
-    			add_location(li1, file$1, 108, 8, 2905);
+    			add_location(li1, file$1, 109, 8, 3010);
     			attr_dev(button, "id", "tagEditButton");
     			attr_dev(button, "class", "svelte-nxmcc7");
-    			add_location(button, file$1, 116, 12, 3328);
+    			add_location(button, file$1, 117, 12, 3433);
     			attr_dev(li2, "class", "svelte-nxmcc7");
-    			add_location(li2, file$1, 116, 8, 3324);
+    			add_location(li2, file$1, 117, 8, 3429);
     			attr_dev(ul, "class", "svelte-nxmcc7");
-    			add_location(ul, file$1, 99, 4, 2536);
+    			add_location(ul, file$1, 100, 4, 2641);
     			attr_dev(aside, "class", "topBar svelte-nxmcc7");
-    			add_location(aside, file$1, 98, 0, 2509);
+    			add_location(aside, file$1, 99, 0, 2614);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3329,6 +3552,18 @@ var app = (function () {
     	validate_slots('NavBar', slots, []);
     	let { boardPairs = [] } = $$props;
     	const dispatch = createEventDispatcher();
+
+    	const fruits = [
+    		"Açaí",
+    		"Akee",
+    		"Apple",
+    		"Apricot",
+    		"Avocado",
+    		"Banana",
+    		"Bilberry",
+    		"Black sapote"
+    	];
+
     	let showReplyBox = false;
     	let showTagEditBox = false;
     	let searchString = "";
@@ -3371,6 +3606,7 @@ var app = (function () {
     		ReplyInputContainer,
     		TagInputContainer,
     		dispatch,
+    		fruits,
     		showReplyBox,
     		showTagEditBox,
     		searchString,
@@ -3442,23 +3678,23 @@ var app = (function () {
 
     function get_each_context_2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[15] = list[i];
+    	child_ctx[17] = list[i];
     	return child_ctx;
     }
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[15] = list[i];
+    	child_ctx[17] = list[i];
     	return child_ctx;
     }
 
-    // (135:1) {#if boardIndex != undefined}
+    // (139:1) {#if boardIndex != undefined}
     function create_if_block_12(ctx) {
     	let if_block_anchor;
     	let if_block = /*boardPairs*/ ctx[1].length > 0 && create_if_block_13(ctx);
@@ -3496,14 +3732,14 @@ var app = (function () {
     		block,
     		id: create_if_block_12.name,
     		type: "if",
-    		source: "(135:1) {#if boardIndex != undefined}",
+    		source: "(139:1) {#if boardIndex != undefined}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (136:2) {#if boardPairs.length > 0}
+    // (140:2) {#if boardPairs.length > 0}
     function create_if_block_13(ctx) {
     	let div;
     	let h1;
@@ -3522,9 +3758,9 @@ var app = (function () {
     			t1 = text(t1_value);
     			t2 = text("/ - ");
     			t3 = text(t3_value);
-    			add_location(h1, file, 137, 4, 3516);
+    			add_location(h1, file, 141, 4, 3624);
     			attr_dev(div, "class", "boardBanner svelte-1yvb74k");
-    			add_location(div, file, 136, 3, 3486);
+    			add_location(div, file, 140, 3, 3594);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -3547,14 +3783,14 @@ var app = (function () {
     		block,
     		id: create_if_block_13.name,
     		type: "if",
-    		source: "(136:2) {#if boardPairs.length > 0}",
+    		source: "(140:2) {#if boardPairs.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (143:1) {#if boardPairs != undefined}
+    // (147:1) {#if boardPairs != undefined}
     function create_if_block_10(ctx) {
     	let if_block_anchor;
     	let current;
@@ -3613,14 +3849,14 @@ var app = (function () {
     		block,
     		id: create_if_block_10.name,
     		type: "if",
-    		source: "(143:1) {#if boardPairs != undefined}",
+    		source: "(147:1) {#if boardPairs != undefined}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (144:2) {#if boardPairs.length > 0}
+    // (148:2) {#if boardPairs.length > 0}
     function create_if_block_11(ctx) {
     	let navbar;
     	let current;
@@ -3663,14 +3899,14 @@ var app = (function () {
     		block,
     		id: create_if_block_11.name,
     		type: "if",
-    		source: "(144:2) {#if boardPairs.length > 0}",
+    		source: "(148:2) {#if boardPairs.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (183:1) {:else}
+    // (187:1) {:else}
     function create_else_block_4(ctx) {
     	let div;
     	let img;
@@ -3687,9 +3923,9 @@ var app = (function () {
     			attr_dev(img, "class", "rinImage svelte-1yvb74k");
     			if (!src_url_equal(img.src, img_src_value = "./images/site/rinImage.jpg")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			add_location(img, file, 184, 3, 4632);
+    			add_location(img, file, 188, 3, 4740);
     			attr_dev(div, "class", "home svelte-1yvb74k");
-    			add_location(div, file, 183, 2, 4610);
+    			add_location(div, file, 187, 2, 4718);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -3723,14 +3959,14 @@ var app = (function () {
     		block,
     		id: create_else_block_4.name,
     		type: "else",
-    		source: "(183:1) {:else}",
+    		source: "(187:1) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (151:1) {#if boardID || threadID}
+    // (155:1) {#if boardID || threadID}
     function create_if_block(ctx) {
     	let div;
     	let current_block_type_index;
@@ -3753,7 +3989,7 @@ var app = (function () {
     			div = element("div");
     			if_block.c();
     			attr_dev(div, "class", "posts svelte-1yvb74k");
-    			add_location(div, file, 151, 1, 3931);
+    			add_location(div, file, 155, 1, 4039);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -3806,14 +4042,14 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(151:1) {#if boardID || threadID}",
+    		source: "(155:1) {#if boardID || threadID}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (186:3) {#if boardPairs != undefined}
+    // (190:3) {#if boardPairs != undefined}
     function create_if_block_8(ctx) {
     	let if_block_anchor;
     	let if_block = /*boardPairs*/ ctx[1].length > 0 && create_if_block_9(ctx);
@@ -3851,14 +4087,14 @@ var app = (function () {
     		block,
     		id: create_if_block_8.name,
     		type: "if",
-    		source: "(186:3) {#if boardPairs != undefined}",
+    		source: "(190:3) {#if boardPairs != undefined}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (187:4) {#if boardPairs.length > 0}
+    // (191:4) {#if boardPairs.length > 0}
     function create_if_block_9(ctx) {
     	let each_1_anchor;
     	let each_value_2 = /*boardPairs*/ ctx[1];
@@ -3921,22 +4157,22 @@ var app = (function () {
     		block,
     		id: create_if_block_9.name,
     		type: "if",
-    		source: "(187:4) {#if boardPairs.length > 0}",
+    		source: "(191:4) {#if boardPairs.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (188:5) {#each boardPairs as boardPair}
+    // (192:5) {#each boardPairs as boardPair}
     function create_each_block_2(ctx) {
     	let h2;
     	let a;
     	let t0;
-    	let t1_value = /*boardPair*/ ctx[20].boardID + "";
+    	let t1_value = /*boardPair*/ ctx[22].boardID + "";
     	let t1;
     	let t2;
-    	let t3_value = /*boardPair*/ ctx[20].boardName + "";
+    	let t3_value = /*boardPair*/ ctx[22].boardName + "";
     	let t3;
     	let a_href_value;
 
@@ -3948,10 +4184,10 @@ var app = (function () {
     			t1 = text(t1_value);
     			t2 = text("/ - ");
     			t3 = text(t3_value);
-    			attr_dev(a, "href", a_href_value = "" + (/*url*/ ctx[7] + "?board=" + /*boardPair*/ ctx[20].boardID));
+    			attr_dev(a, "href", a_href_value = "" + (/*url*/ ctx[7] + "?board=" + /*boardPair*/ ctx[22].boardID));
     			attr_dev(a, "class", "svelte-1yvb74k");
-    			add_location(a, file, 188, 10, 4808);
-    			add_location(h2, file, 188, 6, 4804);
+    			add_location(a, file, 192, 10, 4916);
+    			add_location(h2, file, 192, 6, 4912);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h2, anchor);
@@ -3962,10 +4198,10 @@ var app = (function () {
     			append_dev(a, t3);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*boardPairs*/ 2 && t1_value !== (t1_value = /*boardPair*/ ctx[20].boardID + "")) set_data_dev(t1, t1_value);
-    			if (dirty & /*boardPairs*/ 2 && t3_value !== (t3_value = /*boardPair*/ ctx[20].boardName + "")) set_data_dev(t3, t3_value);
+    			if (dirty & /*boardPairs*/ 2 && t1_value !== (t1_value = /*boardPair*/ ctx[22].boardID + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*boardPairs*/ 2 && t3_value !== (t3_value = /*boardPair*/ ctx[22].boardName + "")) set_data_dev(t3, t3_value);
 
-    			if (dirty & /*boardPairs*/ 2 && a_href_value !== (a_href_value = "" + (/*url*/ ctx[7] + "?board=" + /*boardPair*/ ctx[20].boardID))) {
+    			if (dirty & /*boardPairs*/ 2 && a_href_value !== (a_href_value = "" + (/*url*/ ctx[7] + "?board=" + /*boardPair*/ ctx[22].boardID))) {
     				attr_dev(a, "href", a_href_value);
     			}
     		},
@@ -3978,14 +4214,14 @@ var app = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(188:5) {#each boardPairs as boardPair}",
+    		source: "(192:5) {#each boardPairs as boardPair}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (178:3) {:else}
+    // (182:3) {:else}
     function create_else_block_3(ctx) {
     	let h1;
 
@@ -3993,7 +4229,7 @@ var app = (function () {
     		c: function create() {
     			h1 = element("h1");
     			h1.textContent = "No Posts Found";
-    			add_location(h1, file, 178, 4, 4550);
+    			add_location(h1, file, 182, 4, 4658);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -4010,14 +4246,14 @@ var app = (function () {
     		block,
     		id: create_else_block_3.name,
     		type: "else",
-    		source: "(178:3) {:else}",
+    		source: "(182:3) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (168:3) {#if posts != undefined}
+    // (172:3) {#if posts != undefined}
     function create_if_block_5(ctx) {
     	let if_block_anchor;
     	let current;
@@ -4076,14 +4312,14 @@ var app = (function () {
     		block,
     		id: create_if_block_5.name,
     		type: "if",
-    		source: "(168:3) {#if posts != undefined}",
+    		source: "(172:3) {#if posts != undefined}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (153:2) {#if searching}
+    // (157:2) {#if searching}
     function create_if_block_1(ctx) {
     	let current_block_type_index;
     	let if_block;
@@ -4156,14 +4392,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(153:2) {#if searching}",
+    		source: "(157:2) {#if searching}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (169:4) {#if posts.length > 0}
+    // (173:4) {#if posts.length > 0}
     function create_if_block_6(ctx) {
     	let each_1_anchor;
     	let current;
@@ -4254,20 +4490,20 @@ var app = (function () {
     		block,
     		id: create_if_block_6.name,
     		type: "if",
-    		source: "(169:4) {#if posts.length > 0}",
+    		source: "(173:4) {#if posts.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (173:6) {:else}
+    // (177:6) {:else}
     function create_else_block_2(ctx) {
     	let postcontainer;
     	let current;
 
     	postcontainer = new PostContainer({
-    			props: { post: /*post*/ ctx[15] },
+    			props: { post: /*post*/ ctx[17] },
     			$$inline: true
     		});
 
@@ -4281,7 +4517,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const postcontainer_changes = {};
-    			if (dirty & /*posts*/ 1) postcontainer_changes.post = /*post*/ ctx[15];
+    			if (dirty & /*posts*/ 1) postcontainer_changes.post = /*post*/ ctx[17];
     			postcontainer.$set(postcontainer_changes);
     		},
     		i: function intro(local) {
@@ -4302,20 +4538,20 @@ var app = (function () {
     		block,
     		id: create_else_block_2.name,
     		type: "else",
-    		source: "(173:6) {:else}",
+    		source: "(177:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (171:6) {#if post.replyToID == null}
+    // (175:6) {#if post.replyToID == null}
     function create_if_block_7(ctx) {
     	let openingpostcontainer;
     	let current;
 
     	openingpostcontainer = new OpeningPostContainer({
-    			props: { post: /*post*/ ctx[15] },
+    			props: { post: /*post*/ ctx[17] },
     			$$inline: true
     		});
 
@@ -4329,7 +4565,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const openingpostcontainer_changes = {};
-    			if (dirty & /*posts*/ 1) openingpostcontainer_changes.post = /*post*/ ctx[15];
+    			if (dirty & /*posts*/ 1) openingpostcontainer_changes.post = /*post*/ ctx[17];
     			openingpostcontainer.$set(openingpostcontainer_changes);
     		},
     		i: function intro(local) {
@@ -4350,14 +4586,14 @@ var app = (function () {
     		block,
     		id: create_if_block_7.name,
     		type: "if",
-    		source: "(171:6) {#if post.replyToID == null}",
+    		source: "(175:6) {#if post.replyToID == null}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (170:5) {#each posts as post}
+    // (174:5) {#each posts as post}
     function create_each_block_1(ctx) {
     	let current_block_type_index;
     	let if_block;
@@ -4367,7 +4603,7 @@ var app = (function () {
     	const if_blocks = [];
 
     	function select_block_type_4(ctx, dirty) {
-    		if (/*post*/ ctx[15].replyToID == null) return 0;
+    		if (/*post*/ ctx[17].replyToID == null) return 0;
     		return 1;
     	}
 
@@ -4430,14 +4666,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(170:5) {#each posts as post}",
+    		source: "(174:5) {#each posts as post}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (164:3) {:else}
+    // (168:3) {:else}
     function create_else_block_1(ctx) {
     	let h1;
 
@@ -4445,7 +4681,7 @@ var app = (function () {
     		c: function create() {
     			h1 = element("h1");
     			h1.textContent = "No Posts Found";
-    			add_location(h1, file, 164, 4, 4247);
+    			add_location(h1, file, 168, 4, 4355);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -4462,14 +4698,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1.name,
     		type: "else",
-    		source: "(164:3) {:else}",
+    		source: "(168:3) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (154:3) {#if searchPosts != undefined}
+    // (158:3) {#if searchPosts != undefined}
     function create_if_block_2(ctx) {
     	let if_block_anchor;
     	let current;
@@ -4528,14 +4764,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(154:3) {#if searchPosts != undefined}",
+    		source: "(158:3) {#if searchPosts != undefined}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (155:4) {#if searchPosts.length > 0}
+    // (159:4) {#if searchPosts.length > 0}
     function create_if_block_3(ctx) {
     	let each_1_anchor;
     	let current;
@@ -4626,20 +4862,20 @@ var app = (function () {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(155:4) {#if searchPosts.length > 0}",
+    		source: "(159:4) {#if searchPosts.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (159:6) {:else}
+    // (163:6) {:else}
     function create_else_block(ctx) {
     	let postcontainer;
     	let current;
 
     	postcontainer = new PostContainer({
-    			props: { post: /*post*/ ctx[15] },
+    			props: { post: /*post*/ ctx[17] },
     			$$inline: true
     		});
 
@@ -4653,7 +4889,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const postcontainer_changes = {};
-    			if (dirty & /*searchPosts*/ 16) postcontainer_changes.post = /*post*/ ctx[15];
+    			if (dirty & /*searchPosts*/ 16) postcontainer_changes.post = /*post*/ ctx[17];
     			postcontainer.$set(postcontainer_changes);
     		},
     		i: function intro(local) {
@@ -4674,20 +4910,20 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(159:6) {:else}",
+    		source: "(163:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (157:6) {#if post.replyToID == null}
+    // (161:6) {#if post.replyToID == null}
     function create_if_block_4(ctx) {
     	let openingpostcontainer;
     	let current;
 
     	openingpostcontainer = new OpeningPostContainer({
-    			props: { post: /*post*/ ctx[15] },
+    			props: { post: /*post*/ ctx[17] },
     			$$inline: true
     		});
 
@@ -4701,7 +4937,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const openingpostcontainer_changes = {};
-    			if (dirty & /*searchPosts*/ 16) openingpostcontainer_changes.post = /*post*/ ctx[15];
+    			if (dirty & /*searchPosts*/ 16) openingpostcontainer_changes.post = /*post*/ ctx[17];
     			openingpostcontainer.$set(openingpostcontainer_changes);
     		},
     		i: function intro(local) {
@@ -4722,14 +4958,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(157:6) {#if post.replyToID == null}",
+    		source: "(161:6) {#if post.replyToID == null}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (156:5) {#each searchPosts as post}
+    // (160:5) {#each searchPosts as post}
     function create_each_block(ctx) {
     	let current_block_type_index;
     	let if_block;
@@ -4739,7 +4975,7 @@ var app = (function () {
     	const if_blocks = [];
 
     	function select_block_type_3(ctx, dirty) {
-    		if (/*post*/ ctx[15].replyToID == null) return 0;
+    		if (/*post*/ ctx[17].replyToID == null) return 0;
     		return 1;
     	}
 
@@ -4802,7 +5038,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(156:5) {#each searchPosts as post}",
+    		source: "(160:5) {#each searchPosts as post}",
     		ctx
     	});
 
@@ -4840,9 +5076,9 @@ var app = (function () {
     			div = element("div");
     			if_block2.c();
     			attr_dev(div, "class", "posts svelte-1yvb74k");
-    			add_location(div, file, 147, 1, 3794);
+    			add_location(div, file, 151, 1, 3902);
     			attr_dev(section, "class", "svelte-1yvb74k");
-    			add_location(section, file, 131, 0, 3304);
+    			add_location(section, file, 135, 0, 3412);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4934,7 +5170,7 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('App', slots, []);
     	let posts;
-    	let boardPairs;
+    	let boardPairs, tags;
     	let urlparams = new URLSearchParams(window.location.search);
     	let threadID = urlparams.get('thread');
     	let boardID = urlparams.get('board');
@@ -4942,13 +5178,15 @@ var app = (function () {
     	let boardsRes;
 
     	//let apiURL="http://127.0.0.1:30050/api/";
-    	let searching = false;
+    	let apiURL$1 = apiURL;
 
+    	let searching = false;
     	let searchPosts = [];
     	let url = document.URL.substr(0, document.URL.lastIndexOf("/") + 1);
 
     	onMount(async () => {
     		$$invalidate(1, boardPairs = await getBoards());
+    		tags = await getTags();
     		$$invalidate(2, boardIndex = getBoardIndex());
 
     		if (threadID != null) {
@@ -4986,20 +5224,20 @@ var app = (function () {
 
     	//Function to get a list of boardPairs from the api
     	async function getBoards() {
-    		const res = await fetch(apiURL + "boards");
+    		const res = await fetch(apiURL$1 + "boards");
     		boardsRes = await res.json();
     		return boardsRes;
     	}
 
     	//Function to get a list of Opening Posts from the api
     	async function getOps(board) {
-    		const res = await fetch(apiURL + "posts?board=" + board);
+    		const res = await fetch(apiURL$1 + "posts?board=" + board);
     		return await res.json();
     	}
 
     	//Function to get a list of posts from the api for a particular thread result[0] is an opening post and the rest are replies to that post
     	async function getThread(threadID) {
-    		const res = await fetch(apiURL + "posts?thread=" + threadID);
+    		const res = await fetch(apiURL$1 + "posts?thread=" + threadID);
     		return await res.json();
     	}
 
@@ -5014,15 +5252,18 @@ var app = (function () {
     		OpeningPostContainer,
     		onMount,
     		NavBar,
-    		apiURL,
+    		glob,
     		ReplyInputContainer,
+    		each,
     		posts,
     		boardPairs,
+    		tags,
     		urlparams,
     		threadID,
     		boardID,
     		boardIndex,
     		boardsRes,
+    		apiURL: apiURL$1,
     		searching,
     		searchPosts,
     		url,
@@ -5037,11 +5278,13 @@ var app = (function () {
     	$$self.$inject_state = $$props => {
     		if ('posts' in $$props) $$invalidate(0, posts = $$props.posts);
     		if ('boardPairs' in $$props) $$invalidate(1, boardPairs = $$props.boardPairs);
+    		if ('tags' in $$props) tags = $$props.tags;
     		if ('urlparams' in $$props) urlparams = $$props.urlparams;
     		if ('threadID' in $$props) $$invalidate(5, threadID = $$props.threadID);
     		if ('boardID' in $$props) $$invalidate(6, boardID = $$props.boardID);
     		if ('boardIndex' in $$props) $$invalidate(2, boardIndex = $$props.boardIndex);
     		if ('boardsRes' in $$props) boardsRes = $$props.boardsRes;
+    		if ('apiURL' in $$props) apiURL$1 = $$props.apiURL;
     		if ('searching' in $$props) $$invalidate(3, searching = $$props.searching);
     		if ('searchPosts' in $$props) $$invalidate(4, searchPosts = $$props.searchPosts);
     		if ('url' in $$props) $$invalidate(7, url = $$props.url);

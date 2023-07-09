@@ -2,8 +2,7 @@
 const express = require("express");
 const cors = require('cors');
 const boardPost = require("./boardPost.js");
-const boardPair = require("./boardPair.js");
-const tag = require("./tag.js");
+const {boardPair,Tag} = require("./boardPair.js");
 const dbHandler = require("./dbHandler.js");
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
@@ -61,6 +60,19 @@ app.get('/api/boards', async (req,res) => {
 		}
 	} catch(e){
 		console.log("api::boards " + e);
+		res.send(404);
+	}
+});
+app.get('/api/tags', async (req,res) => {
+	try{
+		let boards = await dbhandler.getTags();
+		if (!boards){
+			res.send(404);
+		} else {
+			res.send(boards);
+		}
+	} catch(e){
+		console.log("api::tags " + e);
 		res.send(404);
 	}
 });
